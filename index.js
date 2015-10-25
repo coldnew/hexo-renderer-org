@@ -9,9 +9,11 @@ var render = function(data,locals){
         suppressSubScriptHandling: false,
         suppressAutoLink: false
     });
-    var HTML = orgHTMLDocument.toString();
-    HTML = HTML.replace(orgHTMLDocument.titleHTML,''); // just remove title,hexo will render title from yaml itself
+    var HTML = orgHTMLDocument.contentHTML;
+    HTML = HTML.replace(/<span class="section-number">[1-9.]*<\/span>/g,'');
+    console.log(HTML);
     return HTML;
 };
 
 hexo.extend.renderer.register('org', 'html', render);
+

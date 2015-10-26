@@ -1,5 +1,6 @@
 "use strict";
 var org = require("org");
+
 var render = function(data,locals){
     var parser = new org.Parser();
     var orgDocument = parser.parse(data.text);

@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/codefalling/hexo-render-org#readme",
   "dependencies": {
-    "org": "git+https://github.com/CodeFalling/org-js.git"
+    "org": "^0.2.0"
   }
 }

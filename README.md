@@ -6,7 +6,7 @@ Hexo renderer plugin for emacs org-mode
 Cd to your hexo blog.Run
 
 ```shell
-npm install org-js-for-hexo-renderer --save
+npm install hexo-renderer-org --save
 ```
 
 Then restart your hexo server.

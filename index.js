@@ -11,7 +11,6 @@ var render = function(data,locals){
     });
     var HTML = orgHTMLDocument.contentHTML;
     HTML = HTML.replace(/<span class="section-number">[1-9.]*<\/span>/g,'');
-    console.log(HTML);
     return HTML;
 };
 

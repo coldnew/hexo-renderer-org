@@ -11,6 +11,17 @@ npm install hexo-renderer-org --save
 
 Then restart your hexo server.
 
+# Options
+
+You can configure this plugin in `_config.yml`.
+
+```yml
+org:
+  toc: false
+```
+
+- toc - Enable table of content
+
 # How to create new post
 
 Create `balbala.org` in source/_posts/,there is a template:

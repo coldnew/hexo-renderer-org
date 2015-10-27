@@ -4,7 +4,7 @@
   "description": "Emacs org-mode render plugin for hexo",
   "main": "index",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/.bin/mocha test/index.js"
   },
   "repository": {
     "type": "git",
@@ -25,5 +25,9 @@
     "hexo-util": "^0.1.7",
     "object-assign": "^4.0.1",
     "org": "^0.2.0"
+  },
+  "devDependencies": {
+    "chai": "^3.4.0",
+    "mocha": "^2.3.3"
   }
 }

@@ -35,5 +35,10 @@ tags:
 ---
 * Orgmode
 ** Why orgmode
+#+BEGIN_SRC js
+  consol.log("hello");
+#+END_SRC
+
 我编不下去了。。
+
 ```

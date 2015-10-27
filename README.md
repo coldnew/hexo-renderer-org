@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/CodeFalling/hexo-renderer-org.svg)](https://travis-ci.org/CodeFalling/hexo-renderer-org)
+[![NPM version](https://badge.fury.io/js/hexo-renderer-org.svg)](http://badge.fury.io/js/hexo-renderer-org)
 # hexo-renderer-org
 Hexo renderer plugin for emacs org-mode
 

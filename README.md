@@ -8,7 +8,7 @@ Hexo renderer plugin for emacs org-mode
 Cd to your hexo blog.Run
 
 ```shell
-npm install hexo-renderer-org --save
+npm install https://github.com/CodeFalling/hexo-renderer-org#emacs --save
 ```
 
 Then restart your hexo server.

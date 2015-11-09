@@ -1,6 +1,6 @@
 {
   "name": "hexo-renderer-org",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Emacs org-mode render plugin for hexo",
   "main": "index",
   "scripts": {

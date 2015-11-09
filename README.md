@@ -19,10 +19,9 @@ You can configure this plugin in `_config.yml`.
 
 ```yml
 org:
-  toc: false
+  emacs: '/Applications/Emacs.app/Contents/MacOS/Emacs'
 ```
 
-- toc - Enable table of content
 
 # How to create new post
 

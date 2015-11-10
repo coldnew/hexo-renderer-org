@@ -4,7 +4,7 @@
 
 Hexo renderer plugin for emacs org-mode
 
-[中文介绍文章](http://codefalling.com/2015/11/10/new-version-of-hexo-renderer-org/)
+[中文介绍文章](http://codefalling.com/tags/hexo-renderer-org/)
 
 # Usage
 

@@ -8,5 +8,6 @@ hexo.config.org = assign({
   emacs: 'emacs'
 }, hexo.config.org);
 
-hexo.extend.renderer.register('org', 'html', renderer, true);
-
+hexo.extend.renderer.register('org', 'html', function(data, options, callback){
+  renderer.bind(hexo)(data, callback);
+}, false);

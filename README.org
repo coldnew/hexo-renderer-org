@@ -1,0 +1,101 @@
+#+NAME:build status
+[[https://travis-ci.org/CodeFalling/hexo-renderer-org.svg]]
+#+NPM version
+[[https://badge.fury.io/js/hexo-renderer-org.svg]]
+
+* Table of Contents                                               :TOC_4_org:
+  - [[hexo-renderer-org][hexo-renderer-org]]
+  - [[Usage][Usage]]
+ - [[Options][Options]]
+ - [[How to create new post][How to create new post]]
+ - [[Q&A][Q&A]]
+   - [[How to add `Read more` button?][How to add `Read more` button?]]
+   - [[Old pure-js version][Old pure-js version]]
+   - [[Front-matter not work?][Front-matter not work?]]
+   - [[How to enable line number?][How to enable line number?]]
+
+*  hexo-renderer-org
+
+Hexo renderer plugin for emacs org-mode
+
+中文动态：[[http://codefalling.com/tags/hexo-renderer-org/][标签: hexo-renderer-org | M-x codefalling]]
+
+*  Usage
+
+Cd to your hexo blog.Run
+
+```shell
+npm install https://github.com/CodeFalling/hexo-renderer-org#emacs --save
+```
+
+You can also install it from npm,too.
+
+Then restart your hexo server.
+
+* Options
+
+You can configure this plugin in `_config.yml`.
+
+```yml
+org:
+  emacs: '/Applications/Emacs.app/Contents/MacOS/Emacs'
+```
+
+
+* How to create new post
+
+Create `balbala.org` in source/_posts/,there is a template:
+
+#+BEGIN_SRC org
+  ,#+TITLE: Hello,orgmode
+  ,#+DATE: <2015-11-15 Sun 17:00>
+  ,#+TAGS: emacs, orgmode, hexo
+  ,#+LAYOUT: post
+  ,#+CATEGORIES: orgmode
+  ,* Orgmode
+  ,** Why org
+  ,#+BEGIN_SRC js
+  console.log('hello');
+  ,#+END_SRC
+  我编不下去了。。
+#+END_SRC
+
+* Q&A
+
+** How to add `Read more` button?
+
+Place
+
+#+BEGIN_SRC org
+  ,#+BEGIN_HTML
+  <!--more-->
+  ,#+END_SRC
+#+END_SRC
+
+in where you would like to add a ~Read more~
+
+** Old pure-js version
+
+See [[https://github.com/CodeFalling/hexo-renderer-org/tree/old-js-version][CodeFalling/hexo-renderer-org at old-js-version]] for old pure-js version.
+
+** Front-matter not work?
+
+Orgmode has its own way to describe meta info of post,such as title,date etc.
+
+| Front-matter | Orgmode      | Value                                                             |
+|--------------+--------------+-------------------------------------------------------------------+
+| layout       | #+LAYOUT     | post/page                                                         |
+| title        | #+TITLE      | string                                                            |
+| data         | #+DATE       | <2015-11-16 Mon 20:45>, you can use ~M-x org-time-stamp~ in emacs |
+| comments     | #+COMMENTS   | true/false                                                        |
+| tags         | #+TAGS       | tag1, tag2, tag3                                                  |
+| categories   | #+CATEGORIES |                                                                   |
+
+** How to enable line number?
+Config in your ~_config.yml~
+
+#+BEGIN_EXAMPLE
+  highlight:
+    enable: true
+    number: false
+#+END_EXAMPLE

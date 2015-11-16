@@ -83,11 +83,11 @@ See [[https://github.com/CodeFalling/hexo-renderer-org/tree/old-js-version][Code
 Orgmode has its own way to describe meta info of post,such as title,date etc.
 
 | Front-matter | Orgmode      | Value                                                             |
-|--------------+--------------+-------------------------------------------------------------------+
+|--------------+--------------+-------------------------------------------------------------------|
 | layout       | #+LAYOUT     | post/page                                                         |
 | title        | #+TITLE      | string                                                            |
-| data         | #+DATE       | <2015-11-16 Mon 20:45>, you can use ~M-x org-time-stamp~ in emacs |
-| comments     | #+COMMENTS   | true/false                                                        |
+| date         | #+DATE       | <2015-11-16 Mon 20:45>, you can use ~M-x org-time-stamp~ in emacs |
+| comments     | #+COMMENTS   | yes/no                                                            |
 | tags         | #+TAGS       | tag1, tag2, tag3                                                  |
 | categories   | #+CATEGORIES |                                                                   |
 

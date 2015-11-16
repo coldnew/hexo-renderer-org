@@ -1,6 +1,6 @@
 #+NAME:build status
 [[https://travis-ci.org/CodeFalling/hexo-renderer-org.svg]]
-#+NPM version
+#+NAME:NPM version
 [[https://badge.fury.io/js/hexo-renderer-org.svg]]
 
 * Table of Contents                                               :TOC_4_org:
@@ -9,7 +9,7 @@
  - [[Options][Options]]
  - [[How to create new post][How to create new post]]
  - [[Q&A][Q&A]]
-   - [[How to add `Read more` button?][How to add `Read more` button?]]
+   - [[How to add ~Read more~ button?][How to add ~Read more~ button?]]
    - [[Old pure-js version][Old pure-js version]]
    - [[Front-matter not work?][Front-matter not work?]]
    - [[How to enable line number?][How to enable line number?]]
@@ -24,9 +24,9 @@ Hexo renderer plugin for emacs org-mode
 
 Cd to your hexo blog.Run
 
-```shell
+#+BEGIN_SRC shell
 npm install https://github.com/CodeFalling/hexo-renderer-org#emacs --save
-```
+#+END_SRC
 
 You can also install it from npm,too.
 
@@ -34,17 +34,17 @@ Then restart your hexo server.
 
 * Options
 
-You can configure this plugin in `_config.yml`.
+You can configure this plugin in ~_config.yml~.
 
-```yml
+#+BEGIN_SRC yml
 org:
   emacs: '/Applications/Emacs.app/Contents/MacOS/Emacs'
-```
+#+END_SRC
 
 
 * How to create new post
 
-Create `balbala.org` in source/_posts/,there is a template:
+Create ~balbala.org~ in source/_posts/,there is a template:
 
 #+BEGIN_SRC org
   ,#+TITLE: Hello,orgmode
@@ -62,7 +62,7 @@ Create `balbala.org` in source/_posts/,there is a template:
 
 * Q&A
 
-** How to add `Read more` button?
+** How to add ~Read more~ button?
 
 Place
 

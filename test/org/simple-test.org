@@ -1,7 +1,6 @@
-title: 'test'
-date: 2015-11-10 21:51:43
-tags:
----
+#+TITLE: test
+#+DATE: <2015-11-19 Thu 10:24>
+#+TAGS:
 * Orgmode
 ** Why orgmode
 #+BEGIN_SRC js

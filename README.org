@@ -8,6 +8,7 @@
  - [[How to create new post][How to create new post]]
  - [[Q&A][Q&A]]
    - [[How to add ~Read more~ button?][How to add ~Read more~ button?]]
+   - [[How to set caption of image?][How to set caption of image?]]
    - [[Old pure-js version][Old pure-js version]]
    - [[Front-matter not work?][Front-matter not work?]]
    - [[How to enable line number?][How to enable line number?]]
@@ -72,6 +73,14 @@ Place
 
 in where you would like to add a ~Read more~
 
+** How to set caption of image?
+Hexo use `alt` as title of image.
+
+So just use
+#+BEGIN_EXAMPLE
+  #+ATTR_HTML:  :alt caption
+  [[image url]]
+#+END_EXAMPLE
 ** Old pure-js version
 
 See [[https://github.com/CodeFalling/hexo-renderer-org/tree/old-js-version][CodeFalling/hexo-renderer-org at old-js-version]] for old pure-js version.

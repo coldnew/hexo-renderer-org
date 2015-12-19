@@ -9,7 +9,8 @@ describe('Org renderer', function() {
   var ctx = {
     config: {
       org: {
-        emacs: 'emacs'
+        emacs: 'emacs',
+        common: ''
       }
     }
   };

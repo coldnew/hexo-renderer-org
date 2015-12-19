@@ -38,8 +38,11 @@ You can configure this plugin in ~_config.yml~.
 #+BEGIN_SRC yml
 org:
   emacs: '/Applications/Emacs.app/Contents/MacOS/Emacs'
+  common: '#+OPTIONS: toc:nil'
 #+END_SRC
 
+1. ~emacs~ is execute file of emacs
+2. ~common~ is common org content or you want to insert before renderer every org file.This is a example to disable toc.
 
 * How to create new post
 

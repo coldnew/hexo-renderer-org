@@ -21,8 +21,10 @@
   },
   "homepage": "https://github.com/codefalling/hexo-render-org#readme",
   "dependencies": {
+    "bufferhelper": "^0.2.1",
     "cheerio": "^0.19.0",
     "hexo-util": "^0.1.7",
+    "iconv-lite": "^0.4.13",
     "object-assign": "^4.0.1"
   },
   "devDependencies": {

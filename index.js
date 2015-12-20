@@ -7,7 +7,8 @@ var read_info = require('./lib/read-info');
 hexo.config.org = assign({
   toc: false,
   emacs: 'emacs',
-  common: ''
+  common: '',
+  cachedir: './hexo-org-cache/'
 }, hexo.config.org);
 
 hexo.extend.renderer.register('org', 'html', renderer.bind(hexo), false);

@@ -39,11 +39,13 @@ You can configure this plugin in ~_config.yml~.
 org:
   emacs: '/Applications/Emacs.app/Contents/MacOS/Emacs'
   common: '#+OPTIONS: toc:nil'
+  cachedir: './hexo-org-cache/'
 #+END_SRC
 
 1. ~emacs~ is execute file of emacs
 2. ~common~ is common org content or you want to insert before renderer every org file.This is a example to disable toc.
-
+3. ~cachedir~ is where your cache file located.With this option ~hexo-org-renderer~ will enable cache. *Recommend for a much faster speed*.
+   Default enable.
 * How to create new post
 
 Create ~balbala.org~ in source/_posts/,there is a template:

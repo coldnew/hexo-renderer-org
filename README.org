@@ -5,6 +5,7 @@
   - [[hexo-renderer-org][hexo-renderer-org]]
   - [[Usage][Usage]]
  - [[Options][Options]]
+   - [[A more functional example][A more functional example]]
  - [[How to create new post][How to create new post]]
  - [[Q&A][Q&A]]
    - [[How to add ~Read more~ button?][How to add ~Read more~ button?]]
@@ -38,7 +39,9 @@ You can configure this plugin in ~_config.yml~.
 #+BEGIN_SRC yml
 org:
   emacs: '/Applications/Emacs.app/Contents/MacOS/Emacs'
-  common: '#+OPTIONS: toc:nil'
+  common: |
+          #+OPTIONS: toc:nil
+          #+BIND: org-html-postamble \"Last Updated %d.</br>Created by %c</br>Render by <a href='https://github.com/CodeFalling/hexo-renderer-org'>hexo-renderer-org</a>\"
   cachedir: './hexo-org-cache/'
 #+END_SRC
 
@@ -46,6 +49,34 @@ org:
 2. ~common~ is common org content or you want to insert before renderer every org file.This is a example to disable toc.
 3. ~cachedir~ is where your cache file located.With this option ~hexo-org-renderer~ will enable cache. *Recommend for a much faster speed*.
    Default enable.
+
+** A more functional example
+#+BEGIN_SRC yml
+org:
+    common: |
+            #+OPTIONS: toc:nil
+            #+BEGIN_HTML
+              <script>
+                function editAtGithub(isRaw){
+                  var url_parts = document.location.pathname.split('/');
+                  var postname = url_parts[url_parts.length - 2];
+                  if(url_parts.length == 3){ // is a page(wiki about etc)
+                    postname = postname + '/index.org';
+                  }else{
+                    postname = '_posts/' + postname + '.org';
+                  }
+
+                  var url = 'https://github.com/CodeFalling/codefalling.github.io/tree/source/source/' + postname;
+                  if(isRaw)
+                    url = 'https://raw.githubusercontent.com/CodeFalling/codefalling.github.io/source/source/' + postname;
+                  window.open(url);
+                }
+              </script>
+            #+END_HTML
+            #+BIND: org-html-postamble \"<a href='javascript: editAtGithub();'>Edit Me at Github</a> - <a href='javascript: editAtGithub(true)'>Org Source</a></br>Last Updated %d.</br>Created by %c</br>Render by <a href='https://github.com/CodeFalling/hexo-renderer-org'>hexo-renderer-org</a>\"
+#+END_SRC
+
+This example add a ~Edit Me at Github - Org Source~ at every org page.
 * How to create new post
 
 Create ~balbala.org~ in source/_posts/,there is a template:

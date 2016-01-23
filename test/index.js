@@ -10,22 +10,25 @@ describe('Org renderer', function() {
     config: {
       org: {
         emacs: 'emacs',
-        common: ''
+        common: '#+OPTIONS: html-postamble:nil'
       }
     }
   };
 
   var r = require('../lib/renderer').bind(ctx);
-
-  it('rendering simple-test.org with default config', function(){
+    // org-html-postamble contains time and version info which is not easy to test
+    it('rendering simple-test.org with no org-html-postamble', function(){
     var data = {
       path: `${process.cwd()}/test/org/simple-test.org`,
       text: 'test' // did nothing
     };
 
     return r(data).then((result) => {
+      console.log(result);
       result.should.eql(
-        `<div id="table-of-contents">
+        `
+
+<div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>

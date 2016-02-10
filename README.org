@@ -41,7 +41,7 @@ org:
   emacs: '/Applications/Emacs.app/Contents/MacOS/Emacs'
   common: |
           #+OPTIONS: toc:nil
-          #+BIND: org-html-postamble \"Last Updated %d.</br>Render by <a href='https://github.com/CodeFalling/hexo-renderer-org'>hexo-renderer-org</a> with %c\"
+          #+BIND: org-html-postamble \"Last Updated %C.</br>Render by <a href='https://github.com/CodeFalling/hexo-renderer-org'>hexo-renderer-org</a> with %c\"
   cachedir: './hexo-org-cache/'
 #+END_SRC
 
@@ -73,7 +73,7 @@ org:
                 }
               </script>
             #+END_HTML
-            #+BIND: org-html-postamble \"<a href='javascript: editAtGithub();'>Edit Me at Github</a> - <a href='javascript: editAtGithub(true)'>Org Source</a> - Last Updated %d.</br>Render by <a href='https://github.com/CodeFalling/hexo-renderer-org'>hexo-renderer-org</a> with %c\"
+            #+BIND: org-html-postamble \"<a href='javascript: editAtGithub();'>Edit Me at Github</a> - <a href='javascript: editAtGithub(true)'>Org Source</a> - Last Updated %C.</br>Render by <a href='https://github.com/CodeFalling/hexo-renderer-org'>hexo-renderer-org</a> with %c\"
 #+END_SRC
 
 This example add a ~Edit Me at Github - Org Source~ at every org page.

@@ -53,8 +53,9 @@ org:
 ** A more functional example
 #+BEGIN_SRC yml
 org:
+    emacs: '/Applications/Emacs.app/Contents/MacOS/Emacs'  
     common: |
-            #+OPTIONS: toc:nil
+            #+OPTIONS: toc:nil num:nil
             #+BEGIN_HTML
               <script>
                 function editAtGithub(isRaw){
@@ -65,15 +66,14 @@ org:
                   }else{
                     postname = '_posts/' + postname + '.org';
                   }
-
-                  var url = 'https://github.com/CodeFalling/codefalling.github.io/tree/source/source/' + postname;
+                  var url = 'https://github.com/CodeFalling/codefalling.com/tree/source/source/' + postname;
                   if(isRaw)
-                    url = 'https://raw.githubusercontent.com/CodeFalling/codefalling.github.io/source/source/' + postname;
+                    url = 'https://raw.githubusercontent.com/CodeFalling/codefalling.com/source/source/' + postname;
                   window.open(url);
                 }
               </script>
             #+END_HTML
-            #+BIND: org-html-postamble \"<a href='javascript: editAtGithub();'>Edit Me at Github</a> - <a href='javascript: editAtGithub(true)'>Org Source</a> - Last Updated %C.</br>Render by <a href='https://github.com/CodeFalling/hexo-renderer-org'>hexo-renderer-org</a> with %c\"
+            #+BIND: org-html-postamble \"<div style='font-size: 14px;padding: 5px;line-height: 20px;border: 1px solid;'><a href='javascript: editAtGithub();'>Edit Me at Github</a> - <a href='javascript: editAtGithub(true)'>Org Source</a> - Last Updated %C.</br>Render by <a href='https://github.com/CodeFalling/hexo-renderer-org'>hexo-renderer-org</a> with %c</div>\"
 #+END_SRC
 
 This example add a ~Edit Me at Github - Org Source~ at every org page.

@@ -104,7 +104,7 @@ Place
 #+BEGIN_SRC org
   ,#+BEGIN_HTML
   <!--more-->
-  ,#+END_SRC
+  ,#+END_HTML
 #+END_SRC
 
 in where you would like to add a ~Read more~

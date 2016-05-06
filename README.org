@@ -142,3 +142,11 @@ Config in your ~_config.yml~
     enable: true
     number: false
 #+END_EXAMPLE
+
+** Disable number of outline
+
+#+BEGIN_SRC yaml
+org:
+  common: |
+          #+OPTIONS: num: nil
+#+END_SRC

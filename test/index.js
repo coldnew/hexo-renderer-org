@@ -48,11 +48,11 @@ describe('Org renderer', function() {
 <div class="outline-text-3" id="text-1-1">
 <div class="org-src-container">
 
-<pre class="src src-js">consol.log(&quot;hello&quot;);
+<pre class="src src-js">consol.log("hello");
 </pre>
 </div>
 <p>
-&#x6211;&#x7F16;&#x4E0D;&#x4E0B;&#x53BB;&#x4E86;&#x3002;&#x3002;
+我编不下去了。。
 </p>
 </div>
 </div>

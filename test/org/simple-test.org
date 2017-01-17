@@ -7,3 +7,10 @@
   consol.log("hello");
 #+END_SRC
 我编不下去了。。
+
+** xml code test
+#+BEGIN_SRC xml
+   <Command>
+     <Order>1</Order>
+   </Command>
+#+END_SRC

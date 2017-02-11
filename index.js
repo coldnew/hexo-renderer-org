@@ -8,6 +8,7 @@ hexo.config.org = assign({
   toc: false,
   emacs: 'emacs',
   common: '',
+  export_cfg: "(progn (package-initialize)(require 'org) (require 'org-clock) (require 'ox))",
   cachedir: './hexo-org-cache/'
 }, hexo.config.org);
 

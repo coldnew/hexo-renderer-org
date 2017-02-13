@@ -10,6 +10,7 @@ describe('Org renderer', function() {
     config: {
       org: {
         emacs: 'emacs',
+        export_cfg: '',
         common: '#+OPTIONS: html-postamble:nil'
       }
     }

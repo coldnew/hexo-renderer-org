@@ -1,0 +1,34 @@
+---
+title: hexo-render-org test
+author: coldnew
+date: 2015-11-08 13:42:25
+lang: zh-tw
+permalink: blog/2015/11-08_iphone_dock1
+tags: [ emacs,hexo ]
+---
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<head>
+</head>
+<body>
+<div id="content">
+<p>
+This is a hexo-render-org fork's test, which rewrite to make emacs can syntax highlight the render html.
+</p>
+
+<!--more-->
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">require</span> '<span style="font-weight: bold; text-decoration: underline;">f</span>)
+(<span style="font-weight: bold;">let*</span> ((spacemacs-dir
+        (directory-file-name (f-join user-emacs-directory <span style="font-style: italic;">"modules"</span> <span style="font-style: italic;">"spacemacs"</span>)))
+       (spacemacs-init
+        (concat (file-name-as-directory spacemacs-dir) <span style="font-style: italic;">"init.el"</span>))
+       (user-emacs-directory (file-name-directory spacemacs-init)))
+  <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">Initial spacemacs, our emacs run on top of it</span>
+  (load spacemacs-init))
+</pre>
+</div>
+</div>
+</body>
+</html>

@@ -58,6 +58,43 @@
 ;; load ox-hexo.el
 (load (expand-file-name "ox-hexo.el" init-path))
 
+
+;; Org-mode 9.0 hack
+(defun org-mode-8.x->9.x-fix ()
+  ;; org-mode 9.x does not problem so we need to fix it :S
+  (when (version<= "9.0.0" org-version)
+    ;; ------------------------------------------------------------
+    ;; http://orgmode.org/Changes.html#orgf3f9c91
+    ;; Repair export blocks and INCLUDE keywords in current buffer.
+    (let ((case-fold-search t)
+          (back-end-re (regexp-opt
+                        '("HTML" "ASCII" "LATEX" "ODT" "MARKDOWN" "MD" "ORG"
+                          "MAN" "BEAMER" "TEXINFO" "GROFF" "KOMA-LETTER")
+                        t)))
+      (org-with-wide-buffer
+       (goto-char (point-min))
+       (let ((block-re (concat "^[ \t]*#\\+BEGIN_" back-end-re)))
+         (save-excursion
+           (while (re-search-forward block-re nil t)
+             (let ((element (save-match-data (org-element-at-point))))
+               (when (eq (org-element-type element) 'special-block)
+                 (save-excursion
+                   (goto-char (org-element-property :end element))
+                   (save-match-data (search-backward "_"))
+                   (forward-char)
+                   (insert "EXPORT")
+                   (delete-region (point) (line-end-position)))
+                 (replace-match "EXPORT \\1" nil nil nil 1))))))
+       (let ((include-re
+              (format "^[ \t]*#\\+INCLUDE: .*?%s[ \t]*$" back-end-re)))
+         (while (re-search-forward include-re nil t)
+           (let ((element (save-match-data (org-element-at-point))))
+             (when (and (eq (org-element-type element) 'keyword)
+                        (string= (org-element-property :key element) "INCLUDE"))
+               (replace-match "EXPORT \\1" nil nil nil 1)))))))
+    ;; ------------------------------------------------------------
+    ))
+
 ;; the exporter function
 (defun hexo-render-org (args)
   "ARGS is a plist which contain following properities:
@@ -93,6 +130,8 @@ ARGS:
     ;; export file content by ox-hexo.el
     (with-temp-buffer
       (insert-file-contents file)
+      ;; fix for org-mode 8.x doc under org-mode 9.x
+      (org-mode-8.x->9.x-fix)
       (org-hexo-export-as-html)
       (write-region (point-min) (point-max) output-file)
       (kill-buffer))

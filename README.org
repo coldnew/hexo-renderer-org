@@ -139,6 +139,7 @@ Orgmode has its own way to describe meta info of post,such as title,date etc.
 | comments     | #+COMMENTS   | yes/no                                                            |
 | tags         | #+TAGS       | tag1, tag2, tag3                                                  |
 | categories   | #+CATEGORIES |                                                                   |
+| updated      | #+UPDATED    | <2015-11-16 Mon 20:45>, you can use ~M-x org-time-stamp~ in emacs |
 | permalink    | #+PERMALINK  | blog/2013/04-12_64cf9/                                            |
 
 ** How to enable line number?

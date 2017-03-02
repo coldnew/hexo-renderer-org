@@ -49,53 +49,66 @@
   (package-refresh-contents))
 
 ;; Install deps packages
-(package-install 'f)                        ; Installed by packages.el
-(package-install 's)                        ; Installed by packages.el
 (package-install 'org)                      ; Installed by packages.el
 (package-install 'htmlize)                  ; Installed by packages.el
 
-;;;; Code:
-(require 'f)
-(require 's)
-(require 'htmlize)
+;; Copy From: http://stackoverflow.com/questions/3964715/what-is-the-correct-way-to-join-multiple-path-components-into-a-single-complete
+(defun joindirs (root &rest dirs)
+  "Joins a series of directories together, like Python's os.path.join,
+  (joindirs \"/tmp\" \"a\" \"b\" \"c\") => /tmp/a/b/c"
+  (if (not dirs)
+      root
+      (apply 'joindirs
+             (expand-file-name (car dirs) root)
+             (cdr dirs))))
 
-;; org-mode config
+;;;; Code:
 (require 'org)
 
-;; syntax highlight
-(load-theme 'tango-dark t)
-
 ;; load ox-hexo.el
-(load (f-join init-path "ox-hexo.el"))
+(load (joindirs init-path "ox-hexo.el"))
 
-;; TODO: load user's config
+;; the exporter function
+(defun hexo-render-org (args)
+  "ARGS is a plist which contain following properities.
 
-;; (princ (format "---> %s" argv))
-;; (find-file (first argv))
-;; (org-hexo-export-as-html)
+doc:
+ (
+ :file         \"File path to render\"
+ :cache-dir    \"Directory path to store the cache files\"
+ :output-file  \"Output file which redner by org-hexo\"
+ :htmlize      \"enable htmlize or not\"
+ :theme        \"emacs-theme you want to use\"
+ :user-config  \"personal's emacs config file to load by emacs\"
+ )"
+  (let ((file         (or (plist-get args :file)             ""))
+        (cache-dir    (or (plist-get args :cache-dir)        ""))
+        (output-file  (or (plist-get args :output-file)      ""))
+        (htmlize      (or (plist-get args :htmlize)      "true"))
+        (theme        (or (plist-get args :theme)            ""))
+        (user-config  (or (plist-get args :user-config)      "")))
 
-;; (princ (format "-->%s" (buffer-string)) #'external-debugging-output)
-;; (princ "Asdsadjasdjasdjaskljdasd")
- ;; (kill-emacs)
+    ;; (when (string-equal htmlize "true")
+    ;;   (require 'htmlize)
+    ;;   (setq org-src-fontify-natively t))
 
-;; arguments
-;; 0: cache path
-;; 1: file
-(setq org-src-fontify-natively t)
+    ;; load theme if specify
+    (unless (string-equal theme "")
+      (load-theme (intern theme) t))
 
-(defun hexo-render-org (file cache-dir output-file)
-  "Render FILE from `org-mode' to html and save cache to CACHE-DIR."
-  (let* ((user-emacs-directory (file-name-directory cache-dir)))
-    ;; open the file
-    (find-file file)
-    ;; export the file
-    (org-hexo-export-as-html)
-    ;; trow result to tmp file
-    (write-file output-file)
-    ;; finish and exit
-    ;; (kill-emacs)
-    (save-buffers-kill-terminal)
-    ))
+    ;; load user-config
+    ;; (unless (string-equal user-config "")
+    ;;   (load user-config))
+
+    ;; export file content by ox-hexo.el
+    (with-temp-buffer
+      (insert-file-contents file)
+      (org-hexo-export-as-html)
+      (write-region (point-min) (point-max) output-file)
+      (kill-buffer))
+
+    ;; done and done, exit emacs now
+    (kill-emacs)))
 
 (provide 'init)
 ;;; init.el ends here

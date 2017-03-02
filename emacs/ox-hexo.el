@@ -6,7 +6,7 @@
 ;; Keywords:
 ;; X-URL: http://github.com/coldnew/org-hexo
 ;; Version: 0.1
-;; Package-Requires: ((org "8.0") (cl-lib "0.5") (f "0.17.2"))
+;; Package-Requires: ((org "8.0") (cl-lib "0.5"))
 
 ;; This file is not part of GNU Emacs.
 
@@ -29,8 +29,6 @@
 ;;; Code:
 (eval-when-compile (require 'cl-lib))
 
-(require 'f)
-(require 's)
 (require 'ox-html)
 (require 'ox-publish)
 
@@ -131,9 +129,9 @@
   (and (org-string-nw-p var)
        (format "%s: %s\n" name
                (concat
-                (if (s-equals-p name "tags") "[ " "")
+                (if (string-equal name "tags") "[ " "")
                 (org-hexo--protect-string* var)
-                (if (s-equals-p name "tags") " ]" "")))))
+                (if (string-equal name "tags") " ]" "")))))
 
 (defun org-hexo--build-front-matter (info)
   (let* ((date (org-hexo--parse-date info :with-date))
@@ -215,7 +213,7 @@ CONTENTS is the transcoded contents string.  INFO is a plist
 holding export options."
   (concat
    ;; Add yml meta info
-   (org-hexo--build-front-matter info)
+   ;; (org-hexo--build-front-matter info)
    ;; start html header
    (org-html-doctype info)
    "\n"

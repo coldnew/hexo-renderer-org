@@ -52,27 +52,17 @@
 (package-install 'org)                      ; Installed by packages.el
 (package-install 'htmlize)                  ; Installed by packages.el
 
-;; Copy From: http://stackoverflow.com/questions/3964715/what-is-the-correct-way-to-join-multiple-path-components-into-a-single-complete
-(defun joindirs (root &rest dirs)
-  "Joins a series of directories together, like Python's os.path.join,
-  (joindirs \"/tmp\" \"a\" \"b\" \"c\") => /tmp/a/b/c"
-  (if (not dirs)
-      root
-      (apply 'joindirs
-             (expand-file-name (car dirs) root)
-             (cdr dirs))))
-
 ;;;; Code:
 (require 'org)
 
 ;; load ox-hexo.el
-(load (joindirs init-path "ox-hexo.el"))
+(load (expand-file-name "ox-hexo.el" init-path))
 
 ;; the exporter function
 (defun hexo-render-org (args)
-  "ARGS is a plist which contain following properities.
+  "ARGS is a plist which contain following properities:
 
-doc:
+ARGS:
  (
  :file         \"File path to render\"
  :cache-dir    \"Directory path to store the cache files\"
@@ -109,6 +99,7 @@ doc:
 
     ;; done and done, exit emacs now
     (kill-emacs)))
+
 
 (provide 'init)
 ;;; init.el ends here

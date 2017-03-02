@@ -241,12 +241,28 @@ holding export options."
   "Transcode LINE-BREAK object into Markdown format.
 CONTENTS is the link's description.  INFO is a plist used as
 a communication channel."
-  (let ((html-link (org-html-link link contents info)))
+  (let* ((type (org-element-property :type link))
+         (raw-link (org-element-property :path link))
+         (raw-path (expand-file-name raw-link))
+         (html-link (org-html-link link contents info)))
 
-    (replace-regexp-in-string
-     "<a href=\"\\(.*?\\)\"\s+class=\"\\(.*?\\)\"\\(.*?\\)" "<a href=\"\\1\" \\3"
-     (replace-regexp-in-string
-      "<img src=\"\\(.*?\\)\"\s+alt=\"\\(.*?\\)\"\\(.*?\\)" "<img src=\"\\1\" \\3" html-link))))
+    ;; file
+    (when (string= type "file")
+
+      ;; Fix file link if prefix with org-mode file name.
+      ;; ex: if we has `hi.org' and asset dir `hi'
+      ;; in hi.org: [[file:hi/xxx.png]] will be read as [[file:xxx.png]], this will help hexo
+      ;; not have problem when render image path.
+      (setq html-link
+            (replace-regexp-in-string raw-link
+                                      (file-name-nondirectory raw-path) html-link)))
+
+  ;; Fix generate link
+  (replace-regexp-in-string
+   "<a href=\"\\(.*?\\)\"\s+class=\"\\(.*?\\)\"\\(.*?\\)" "<a href=\"\\1\" \\3"
+   (replace-regexp-in-string
+    "<img src=\"\\(.*?\\)\"\s+alt=\"\\(.*?\\)\"\\(.*?\\)" "<img src=\"\\1\" \\3" html-link))
+  ))
 
 
 ;;; End-user functions
@@ -266,7 +282,7 @@ is non-nil."
 
 ;;;###autoload
 (defun org-hexo-export-to-html
-  (&optional async subtreep visible-only body-only ext-plist)
+    (&optional async subtreep visible-only body-only ext-plist)
   "Export current buffer to a HTML file.
 
 If narrowing is active in the current buffer, only export its
@@ -295,10 +311,10 @@ file-local settings.
 Return output file's name."
   (interactive)
   (let* ((extension (concat "." (or (plist-get ext-plist :html-extension)
-            org-html-extension
-            "html")))
-   (file (org-export-output-file-name extension subtreep))
-   (org-export-coding-system org-html-coding-system))
+                                    org-html-extension
+                                    "html")))
+         (file (org-export-output-file-name extension subtreep))
+         (org-export-coding-system org-html-coding-system))
     (org-export-to-file 'hexo-html file
       async subtreep visible-only body-only ext-plist)))
 

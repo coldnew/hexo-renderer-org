@@ -1,6 +1,12 @@
 [[https://travis-ci.org/CodeFalling/hexo-renderer-org][https://travis-ci.org/CodeFalling/hexo-renderer-org.svg]]
 [[https://www.npmjs.com/package/hexo-renderer-org][https://badge.fury.io/js/hexo-renderer-org.svg]]
 
+This is my *fork* of [[https://github.com/CodeFalling/hexo-renderer-org][hexo-render-org]], which use emacs to htmlize the post instead of use highlight.js.
+
+I am still working on this plugin, but it can use now :).
+
+Some features may PR back to [[https://github.com/CodeFalling/hexo-renderer-org][hexo-render-org]] if the original author accept that feature.
+
 * Table of Contents                                               :TOC_4_org:
   - [[hexo-renderer-org][hexo-renderer-org]]
   - [[Usage][Usage]]

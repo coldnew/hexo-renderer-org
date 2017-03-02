@@ -9,7 +9,9 @@ hexo.config.org = assign({
   emacs: 'emacs',
   common: '',
   export_cfg: "(progn (package-initialize)(require 'org) (require 'org-clock) (require 'ox))",
-  cachedir: './hexo-org-cache/'
+  cachedir: './hexo-org-cache/',
+  theme: '',
+  user_config: ''
 }, hexo.config.org);
 
 hexo.extend.renderer.register('org', 'html', renderer.bind(hexo), false);

@@ -115,17 +115,19 @@ ARGS:
         (theme        (or (plist-get args :theme)            ""))
         (user-config  (or (plist-get args :user-config)      "")))
 
-    ;; (when (string-equal htmlize "true")
-    ;;   (require 'htmlize)
-    ;;   (setq org-src-fontify-natively t))
+    ;; use emacs's htmlize to syntax highlight source code
+    (when (string-equal htmlize "true")
+      (require 'htmlize)
+      (setq org-src-fontify-natively t))
 
     ;; load theme if specify
     (unless (string-equal theme "")
       (load-theme (intern theme) t))
 
     ;; load user-config
-    ;; (unless (string-equal user-config "")
-    ;;   (load user-config))
+    (when (and (not (string-equal user-config ""))
+               (file-exists-p user-config))
+      (load user-config))
 
     ;; export file content by ox-hexo.el
     (with-temp-buffer

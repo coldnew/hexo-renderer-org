@@ -60,8 +60,8 @@
 
 
 ;; Org-mode 9.0 hack
-(defun org-mode-8.x->9.x-fix ()
-  ;; org-mode 9.x does not problem so we need to fix it :S
+(defun org-mode/8.x->9.x-fix ()
+  ;; org-mode 9.x has some compatable problem with 8.x, we need to fix it here :S
   (when (version<= "9.0.0" org-version)
     ;; ------------------------------------------------------------
     ;; http://orgmode.org/Changes.html#orgf3f9c91
@@ -132,8 +132,8 @@ ARGS:
     ;; export file content by ox-hexo.el
     (with-temp-buffer
       (insert-file-contents file)
-      ;; fix for org-mode 8.x doc under org-mode 9.x
-      (org-mode-8.x->9.x-fix)
+      ;; fix for org-mode 8.x file under org-mode 9.x
+      (org-mode/8.x->9.x-fix)
       (org-hexo-export-as-html)
       (write-region (point-min) (point-max) output-file)
       (kill-buffer))

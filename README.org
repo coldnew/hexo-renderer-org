@@ -1,4 +1,4 @@
-[[https://travis-ci.org/CodeFalling/hexo-renderer-org][https://travis-ci.org/CodeFalling/hexo-renderer-org.svg]]
+[[https://circleci.com/gh/coldnew/hexo-renderer-org][https://circleci.com/gh/coldnew/hexo-renderer-org.svg?style=svg]]
 [[https://www.npmjs.com/package/hexo-renderer-org][https://badge.fury.io/js/hexo-renderer-org.svg]]
 
 This is my *fork* of [[https://github.com/CodeFalling/hexo-renderer-org][hexo-render-org]], which use emacs to htmlize the post instead of use highlight.js.

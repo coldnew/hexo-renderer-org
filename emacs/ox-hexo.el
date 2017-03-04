@@ -47,6 +47,21 @@
     (:permalink "PERMALINK"  nil     nil)))
 
 
+;;;; Backend
+
+(org-export-define-derived-backend 'hexo-html 'html
+  :translate-alist
+  '(;; drop most of nouse html header
+    (template . org-hexo-html-template)
+    ;; Fix for multibyte language
+    (paragraph . org-hexo-html-paragraph)
+    ;; Fix toc for org-hexo theme
+    (inner-template . org-hexo-html-inner-template)
+    ;; convert relative link to let pelican can recognize
+    (link . org-hexo-html-link))
+  :options-alist org-hexo--options-alist)
+
+
 ;;;; Paragraph
 
 (defun org-hexo-html-paragraph (paragraph contents info)

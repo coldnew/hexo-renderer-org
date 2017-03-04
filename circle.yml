@@ -7,8 +7,6 @@ machine:
   timezone: Asia/Taipei
   node:
     - version: 4.7.2
-  services:
-    - docker
 
 dependencies:
   pre:

@@ -1,0 +1,26 @@
+general:
+  branches:
+    ignore:
+      - gh-pages
+
+machine:
+  timezone: Asia/Taipei
+  node:
+    - version: 4.7.2
+  services:
+    - docker
+
+dependencies:
+  pre:
+    - sudo add-apt-repository -y ppa:cassou/emacs
+    - sudo add-apt-repository -y ppa:ubuntu-elisp/ppa
+    - sudo apt-get update
+    - sudo apt-get install -qq emacs24-nox emacs-snapshot
+    - sudo update-alternatives --set emacs /usr/bin/emacs-snapshot
+    - npm install
+  cache_directories:
+    - node_modules
+
+test:
+  override:
+    - npm test

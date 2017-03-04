@@ -4,7 +4,7 @@
 #+UPDATED: 2015-11-08 13:42:28
 #+LANGUAGE: zh-tw
 #+PERMALINK: blog/2015/11-08_iphone_dock1
-#+TAGS: emacs hexo
+#+TAGS: emacs, hexo
 
 This is a hexo-render-org fork's test, which rewrite to make emacs can syntax highlight the render html.
 

@@ -12,7 +12,8 @@ describe('Org renderer', function() {
         emacs: 'emacs',
         export_cfg: '',
         //common: '#+OPTIONS: html-postamble:nil'
-        common: ''
+        common: '',
+        debug: true
       }
     }
   };

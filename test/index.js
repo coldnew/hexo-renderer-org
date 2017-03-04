@@ -28,6 +28,7 @@ describe('Org renderer', function() {
       text: 'test' // did nothing
     };
 
+    // FIXME: this test can pass on org-mode 8.x, failed on 9.x :-S
     return r(data).then((result) => {
       console.log(result);
       result.should.eql(
@@ -39,6 +40,7 @@ This is a hexo-render-org fork's test, which rewrite to make emacs can syntax hi
 <!--more-->
 
 <div class="org-src-container">
+
 <pre class="src src-emacs-lisp">(<span style="color: #346604;">require</span> '<span style="color: #204a87; font-weight: bold;">f</span>)
 (<span style="color: #346604;">let*</span> ((spacemacs-dir
         (directory-file-name (f-join user-emacs-directory <span style="color: #5c3566;">"modules"</span> <span style="color: #5c3566;">"spacemacs"</span>)))

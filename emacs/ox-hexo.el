@@ -47,136 +47,6 @@
     (:permalink "PERMALINK"  nil     nil)))
 
 
-;;;; Helper functions
-
-(defun org-hexo--protect-tag (text)
-  "Convert:
-       _     ->  <space>
-       @     ->  -
-     <space> ->  ,
-"
-  (let ((protect-char-alist
-         '(("@" . "-")
-           (" " . ",")
-           ("_" . " "))))
-    (dolist (pair protect-char-alist text)
-      (setq text (replace-regexp-in-string (car pair) (cdr pair) text t t)))))
-
-;; http://www.obkb.com/dcljr/charstxt.html
-(defun org-hexo--protect-title (text)
-  "Convert:
-    :    ->  &#58;
-"
-  (let ((protect-char-alist
-         '((":" . "&#58;")
-           )))
-    (dolist (pair protect-char-alist text)
-      (setq text (replace-regexp-in-string (car pair) (cdr pair) text t t)))))
-
-
-(defun org-hexo--protect-string (str)
-  "Convert \" -> &quot;"
-  (replace-regexp-in-string
-   "\"" "&quot;" (org-html-encode-plain-text str)))
-
-(defun org-hexo--protect-string* (str)
-  (org-hexo--protect-tag
-   (org-hexo--protect-string str)))
-
-(defun org-hexo--parse-date (info key)
-  "Parse #+DATE: value."
-  (let ((date (if (eq key :with-date)
-                  (org-export-data (and (plist-get info :with-date) (org-export-get-date info)) info)
-                  (plist-get info key))))
-
-    (and (org-string-nw-p date)
-         (if (stringp date)
-             ;; raw date info: 2013-08-04 23:28:44
-             ;; FIXME: does this also work for `2013/08/04 23:28:44' ?
-             date
-             ;; parse org-timestamp
-             (format-time-string "%Y-%m-%d %H:%M:%S"
-                                 (apply 'encode-time (org-parse-time-string
-                                                      (org-element-property :raw-value date))))))))
-
-(defun org-hexo--parse-title (info)
-  "Parse #+TITLE: value."
-  (let ((title (plist-get info :title)))
-    (org-export-data (or title "") info)))
-
-(defun org-hexo--parse-author (info)
-  "Parse #+AUTOHR: value."
-  (and (plist-get info :with-author)
-       (let ((auth (plist-get info :author)))
-         (and auth
-              ;; Return raw Org syntax, skipping non
-              ;; exportable objects.
-              (org-element-interpret-data
-               (org-element-map auth
-                   (cons 'plain-text org-element-all-objects)
-                 'identity info))))))
-
-(defun org-hexo---build-title (name var)
-  (and (org-string-nw-p var)
-       (format "%s: %s\n" name
-               (org-hexo--protect-title (org-hexo--protect-string var)))))
-
-(defun org-hexo---build-front-matter (name var)
-  (and (org-string-nw-p var)
-       (format "%s: %s\n" name (org-hexo--protect-string var))))
-
-(defun org-hexo---build-front-matter* (name var)
-  (and (org-string-nw-p var)
-       (format "%s: %s\n" name
-               (concat
-                (if (string-equal name "tags") "[ " "")
-                (org-hexo--protect-string* var)
-                (if (string-equal name "tags") " ]" "")))))
-
-(defun org-hexo--build-front-matter (info)
-  (let* ((date (org-hexo--parse-date info :with-date))
-         (updated (or (org-hexo--parse-date info :updated) date))
-         (category (plist-get info :category))
-         (tags (plist-get info :tags)))
-    (concat
-     "---\n"
-     ;; user info
-     (org-hexo---build-title        "title" (org-hexo--parse-title info))
-     (org-hexo---build-front-matter "author" (org-hexo--parse-author info))
-     (org-hexo---build-front-matter "date" date)
-
-     ;; (when org-hexo-overwrite-updated
-     ;;   (org-hexo---build-front-matter
-     ;;    "updated"
-     ;;    (or (org-hexo--parse-date info :updated) date)))
-
-     (org-hexo---build-front-matter "layout" (plist-get info :layout))
-     (org-hexo---build-front-matter "lang" (plist-get info :language))
-     (org-hexo---build-front-matter "description" (plist-get info :description))
-     (org-hexo---build-front-matter "keywords" (plist-get info :keywords))
-     (org-hexo---build-front-matter "permalink" (plist-get info :permalink))
-
-     ;; compact version
-     (org-hexo---build-front-matter* "category" category)
-     (org-hexo---build-front-matter* "tags" tags)
-     "---\n")))
-
-
-;;;; Backend
-
-(org-export-define-derived-backend 'hexo-html 'html
-  :translate-alist
-  '(;; drop most of nouse html header
-    (template . org-hexo-html-template)
-    ;; Fix for multibyte language
-    (paragraph . org-hexo-html-paragraph)
-    ;; Fix toc for org-hexo theme
-    (inner-template . org-hexo-html-inner-template)
-    ;; convert relative link to let pelican can recognize
-    (link . org-hexo-html-link))
-  :options-alist org-hexo--options-alist)
-
-
 ;;;; Paragraph
 
 (defun org-hexo-html-paragraph (paragraph contents info)
@@ -212,13 +82,10 @@ holding export options."
 CONTENTS is the transcoded contents string.  INFO is a plist
 holding export options."
   (concat
-   ;; Add yml meta info
-   ;; (org-hexo--build-front-matter info)
    ;; start html header
    (org-html-doctype info)
    "\n"
    "<head>\n"
-   ;;(org-hexo-html--build-meta-info info)
    "</head>\n"
    "<body>\n"
 

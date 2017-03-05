@@ -7,6 +7,11 @@ I am still working on this plugin, but it can use now :).
 
 Some features may PR back to [[https://github.com/CodeFalling/hexo-renderer-org][hexo-render-org]] if the original author accept that feature.
 
+For more infor, please see [[https://coldnew.github.io/hexo-org-example/2017/03/05/getting-started-with-hexo-and-org-mode/][
+Getting Started with the Hexo and org-mode]] first.
+
+=------ FOLLOWING CONTENTS NEED TO BE REVIEWED ------=
+
 * Table of Contents                                               :TOC_4_org:
   - [[hexo-renderer-org][hexo-renderer-org]]
   - [[Usage][Usage]]

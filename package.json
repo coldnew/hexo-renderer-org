@@ -29,8 +29,8 @@
     "md5": "^2.0.0",
     "mkdirp": "^0.5.1",
     "moment": "^2.10.6",
+    "node-pty": "git+https://github.com/Tyriar/node-pty.git",
     "object-assign": "^4.0.1",
-    "pty.js": "^0.3.1",
     "tmp": "0.0.31"
   },
   "devDependencies": {

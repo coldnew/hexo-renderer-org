@@ -24,6 +24,9 @@
 
 ;;; Bootstrap
 
+;; Ignore all directory-local variables in `.dir-locals.el', else it'll make Emacs stucks there.
+(setq enable-dir-local-variables nil)
+
 (defvar init-path
   (file-name-directory (or load-file-name (buffer-file-name)))
   "This init.el file path.")

@@ -24,6 +24,7 @@
 
 ;;; Bootstrap
 
+
 ;; Ignore all directory-local variables in `.dir-locals.el', else it'll make Emacs stucks there.
 (setq enable-dir-local-variables nil)
 
@@ -31,7 +32,7 @@
   "A file to save debugging info. All data store in `json' format.")
 
 (defvar *status* t
-  "Renderer status, we assume this renderer will success, else this value will be set to `false'.")
+  "Renderer status, we assume this renderer will success, else this value will be set to `:json-false'.")
 
 (defun log-info (msg)
   "Logging MSG in json format to *debug-file*.
@@ -50,6 +51,15 @@ Output-File: (will be convert to JSON-format)
     (with-temp-buffer
       (insert (json-encode info))
       (write-region (point-min) (point-max) *debug-file*))))
+
+;; Start a timer to detect error
+(run-with-idle-timer
+ 0 t (lambda ()
+       ;; When *Backtrace* exist, which means error occured, set `*statue*' to false and write value to `debug-file' then exit.
+       (with-current-buffer "*Backtrace*"
+         (setq *status* :json-false)
+         (log-info (buffer-string))
+         (kill-emacs))))
 
 ;; Here let's know the init.el is succeful loaded
 (log-info "Enter init.el")

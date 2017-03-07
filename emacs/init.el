@@ -27,6 +27,36 @@
 ;; Ignore all directory-local variables in `.dir-locals.el', else it'll make Emacs stucks there.
 (setq enable-dir-local-variables nil)
 
+(defvar *debug-file* nil
+  "A file to save debugging info. All data store in `json' format.")
+
+(defvar *status* t
+  "Renderer status, we assume this renderer will success, else this value will be set to `false'.")
+
+(defun log-info (msg)
+  "Logging MSG in json format to *debug-file*.
+
+Output-File: (will be convert to JSON-format)
+ (
+ :success       t          ;; Not t means failed :(
+ :msg           \"wtf?\"   ;; some msg
+ )"
+  (let ((info '(:msg "")))
+    ;; Build info list
+    (plist-put info :success *status*)
+    (plist-put info :msg msg)
+    ;; Convert to JSON format and write to `*deebug-file*'
+    (require 'json)                     ; build-in
+    (with-temp-buffer
+      (insert (json-encode info))
+      (write-region (point-min) (point-max) *debug-file*))))
+
+;; Here let's know the init.el is succeful loaded
+(log-info "Enter init.el")
+
+
+;;;; Initial emacs
+
 (defvar init-path
   (file-name-directory (or load-file-name (buffer-file-name)))
   "This init.el file path.")
@@ -60,10 +90,12 @@
 
 ;; load ox-hexo.el
 (load (expand-file-name "ox-hexo.el" init-path))
+(log-info (format "Load ox-hexo.el at: %s " init-path))
 
-
+
 ;; Org-mode 9.0 hack
-(defun org-mode/8.x->9.x-fix ()
+
+(defun org-mode-compability-fixup ()
   ;; org-mode 9.x has some compatable problem with 8.x, we need to fix it here :S
   (when (version<= "9.0.0" org-version)
     ;; ------------------------------------------------------------
@@ -98,7 +130,14 @@
     ;; ------------------------------------------------------------
     ))
 
-;; the exporter function
+
+;; The exporter function
+
+(defun hexo-render-org-exporter ()
+  "The exporter function, when execute this function, we must in the org-mode file.
+This function is intend to let user overwrite in their user-config."
+  (org-hexo-export-as-html))
+
 (defun hexo-render-org (args)
   "ARGS is a plist which contain following properities:
 
@@ -111,6 +150,7 @@ ARGS:
  :theme        \"emacs-theme you want to use\"
  :user-config  \"personal's emacs config file to load by emacs\"
  )"
+  (log-info "Enter hexo-render-org")
   (let ((file         (or (plist-get args :file)             ""))
         (cache-dir    (or (plist-get args :cache-dir)        ""))
         (output-file  (or (plist-get args :output-file)      ""))
@@ -118,32 +158,40 @@ ARGS:
         (theme        (or (plist-get args :theme)            ""))
         (user-config  (or (plist-get args :user-config)      "")))
 
-    ;; use emacs's htmlize to syntax highlight source code
+    ;; Use emacs's htmlize to syntax highlight source code
     (when (string-equal htmlize "true")
       (require 'htmlize)
       (setq org-src-fontify-natively t))
 
-    ;; load theme if specify
+    ;; Load theme if specify
     (unless (string-equal theme "")
       (load-theme (intern theme) t))
 
-    ;; load user-config
+    ;; Load user-config
     (when (and (not (string-equal user-config ""))
                (file-exists-p user-config))
       (load user-config))
 
-    ;; export file content by ox-hexo.el
+    ;; Export file content by ox-hexo.el
     (with-temp-buffer
+      ;; Insert input-file contents
       (insert-file-contents file)
-      ;; fix for org-mode 8.x file under org-mode 9.x
-      (org-mode/8.x->9.x-fix)
-      (org-hexo-export-as-html)
+      (log-info (format "Read input file: %s" file))
+      ;; Fix for org-mode 8.x file under org-mode 9.x
+      (org-mode-compability-fixup)
+      ;; Export the org-mode file to HTML (default)
+      (hexo-render-org-exporter)
+      ;; Write contents to output-file
       (write-region (point-min) (point-max) output-file)
+      (log-info (format "Write output file: %s" output-file))
+      ;; bye-bye tmp buffer
       (kill-buffer))
 
     ;; done and done, exit emacs now
+    (log-info "Exit hexo-render-org")
     (kill-emacs)))
 
+
 
 (provide 'init)
-;;; init.el ends here
+;;; init.el ends here.

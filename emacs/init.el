@@ -24,6 +24,8 @@
 
 ;;; Bootstrap
 
+;; when error, trigger an error buffer to make debug more easy
+(setq debug-on-error t)
 
 ;; Ignore all directory-local variables in `.dir-locals.el', else it'll make Emacs stucks there.
 (setq enable-dir-local-variables nil)

@@ -22,10 +22,11 @@
 ;;
 ;; This file is desinged to used by `hexo-renderer-org'.
 
-;;; Bootstrap
-
 ;; when error, trigger an error buffer to make debug more easy
 (setq debug-on-error t)
+
+;; Some basic package we use
+(require 'json)                     ; build-in
 
 ;; Ignore all directory-local variables in `.dir-locals.el', else it'll make Emacs stucks there.
 (setq enable-dir-local-variables nil)
@@ -49,7 +50,6 @@ Output-File: (will be convert to JSON-format)
     (plist-put info :success *status*)
     (plist-put info :msg msg)
     ;; Convert to JSON format and write to `*deebug-file*'
-    (require 'json)                     ; build-in
     (with-temp-buffer
       (insert (json-encode info))
       (write-region (point-min) (point-max) *debug-file*))))
@@ -62,9 +62,6 @@ Output-File: (will be convert to JSON-format)
          (setq *status* :json-false)
          (log-info (buffer-string))
          (kill-emacs))))
-
-;; Here let's know the init.el is succeful loaded
-(log-info "Enter init.el")
 
 
 ;;;; Initial emacs
@@ -102,7 +99,6 @@ Output-File: (will be convert to JSON-format)
 
 ;; load ox-hexo.el
 (load (expand-file-name "ox-hexo.el" init-path))
-(log-info (format "Load ox-hexo.el at: %s " init-path))
 
 
 ;; Org-mode 9.0 hack
@@ -162,7 +158,6 @@ ARGS:
  :theme        \"emacs-theme you want to use\"
  :user-config  \"personal's emacs config file to load by emacs\"
  )"
-  (log-info "Enter hexo-render-org")
   (let ((file         (or (plist-get args :file)             ""))
         (cache-dir    (or (plist-get args :cache-dir)        ""))
         (output-file  (or (plist-get args :output-file)      ""))
@@ -188,14 +183,12 @@ ARGS:
     (with-temp-buffer
       ;; Insert input-file contents
       (insert-file-contents file)
-      (log-info (format "Read input file: %s" file))
       ;; Fix for org-mode 8.x file under org-mode 9.x
       (org-mode-compability-fixup)
       ;; Export the org-mode file to HTML (default)
       (hexo-render-org-exporter)
       ;; Write contents to output-file
       (write-region (point-min) (point-max) output-file)
-      (log-info (format "Write output file: %s" output-file))
       ;; bye-bye tmp buffer
       (kill-buffer))
 

@@ -146,6 +146,20 @@ Output-File: (will be convert to JSON-format)
 This function is intend to let user overwrite in their user-config."
   (org-hexo-export-as-html))
 
+(defun hexo-renderer-insert-options (s)
+  "Insert common option and settings S to current `org-mode' document.
+The string S will be prepent at beginning of file.
+
+Here's how you can use this function:
+
+  (hexo-renderer-insert-options \"#+OPTIONS: num:t\")
+
+"
+  (save-excursion
+    (goto-char (point-min))
+    (newline-and-indent)
+    (insert s)))
+
 (defun hexo-render-org (args)
   "ARGS is a plist which contain following properities:
 

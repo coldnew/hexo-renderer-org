@@ -58,10 +58,12 @@ Output-File: (will be convert to JSON-format)
 (run-with-idle-timer
  0 t (lambda ()
        ;; When *Backtrace* exist, which means error occured, set `*statue*' to false and write value to `debug-file' then exit.
-       (with-current-buffer "*Backtrace*"
-         (setq *status* :json-false)
-         (log-info (buffer-string))
-         (kill-emacs))))
+       (when (get-buffer "*Backtrace*")
+         (with-current-buffer "*Backtrace*"
+           (setq *status* :json-false)
+           (log-info (buffer-string))
+           (kill-emacs)))
+       ))
 
 
 ;;;; Initial emacs

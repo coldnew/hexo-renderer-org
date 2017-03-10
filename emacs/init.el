@@ -63,6 +63,13 @@ Output-File: (will be convert to JSON-format)
            (setq *status* :json-false)
            (log-info (buffer-string))
            (kill-emacs)))
+       ;; Sometimes, there's another error "End of file during parsing:", this error may not trow Error to emacs but just display on *Messages* buffer.
+       (with-current-buffer "*Messages*"
+         (goto-char (point-min))
+         (while (re-search-forward "End of file during parsing" nil t)
+           (setq *status* :json-false)
+           (log-info (buffer-string))
+           (kill-emacs)))
        ))
 
 

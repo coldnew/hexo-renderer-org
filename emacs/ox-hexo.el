@@ -37,7 +37,7 @@
 
 (defvar org-hexo--options-alist
   '(;; buildin in org-mode
-    (:date      "DATE"       nil     nil)
+    ;; (:date      "DATE"       nil     nil)
     (:tags      "TAGS"       nil     nil)
     (:category  "CATEGORY"   nil     nil)
     ;; Need by hexo
@@ -51,15 +51,14 @@
 
 (org-export-define-derived-backend 'hexo-html 'html
   :translate-alist
-  '(;; drop most of nouse html header
-    (template . org-hexo-html-template)
-    ;; Fix for multibyte language
+  '( ;; Fix for multibyte language
     (paragraph . org-hexo-html-paragraph)
     ;; Fix toc for org-hexo theme
-    (inner-template . org-hexo-html-inner-template)
+    ;; (inner-template . org-hexo-html-inner-template)
     ;; convert relative link to let pelican can recognize
     (link . org-hexo-html-link))
-  :options-alist org-hexo--options-alist)
+  ;; :options-alist org-hexo--options-alist
+  )
 
 
 ;;;; Paragraph
@@ -78,43 +77,6 @@ a communication channel."
 
     ;; Send modify data to func
     (org-html-paragraph paragraph contents info)))
-
-
-;;; Template
-
-(defun org-hexo-html-inner-template (contents info)
-  "Return body of document string after HTML conversion.
-CONTENTS is the transcoded contents string.  INFO is a plist
-holding export options."
-  (concat
-   ;; Document contents.
-   contents
-   ;; Footnotes section.
-   (org-html-footnote-section info)))
-
-(defun org-hexo-html-template (contents info)
-  "Return complete document string after HTML conversion.
-CONTENTS is the transcoded contents string.  INFO is a plist
-holding export options."
-  (concat
-   ;; start html header
-   (org-html-doctype info)
-   "\n"
-   "<head>\n"
-   "</head>\n"
-   "<body>\n"
-
-   ;; Document contents.
-   (format "<%s id=\"%s\">\n"
-           (nth 1 (assq 'content org-html-divs))
-           (nth 2 (assq 'content org-html-divs)))
-
-   contents
-   (format "</%s>\n"
-           (nth 1 (assq 'content org-html-divs)))
-
-   ;; Closing document.
-   "</body>\n</html>"))
 
 
 ;;;; Link

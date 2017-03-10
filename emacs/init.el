@@ -141,8 +141,8 @@ Output-File: (will be convert to JSON-format)
 
 ;; The exporter function
 
-(defun hexo-render-org-exporter ()
-  "The exporter function, when execute this function, we must in the org-mode file.
+(defun hexo-renderer-org-exporter ()
+  "The exporter function, when execute this function, we must in the `org-mode' file.
 This function is intend to let user overwrite in their user-config."
   (org-hexo-export-as-html))
 
@@ -186,7 +186,7 @@ ARGS:
       ;; Fix for org-mode 8.x file under org-mode 9.x
       (org-mode-compability-fixup)
       ;; Export the org-mode file to HTML (default)
-      (hexo-render-org-exporter)
+      (hexo-renderer-org-exporter)
       ;; Write contents to output-file
       (write-region (point-min) (point-max) output-file)
       ;; bye-bye tmp buffer

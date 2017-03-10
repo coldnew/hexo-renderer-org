@@ -158,7 +158,8 @@ Here's how you can use this function:
   (save-excursion
     (goto-char (point-min))
     (newline-and-indent)
-    (insert s)))
+    (insert s)
+    (newline-and-indent)))
 
 (defun hexo-render-org (args)
   "ARGS is a plist which contain following properities:
@@ -171,13 +172,15 @@ ARGS:
  :htmlize      \"enable htmlize or not\"
  :theme        \"emacs-theme you want to use\"
  :user-config  \"personal's emacs config file to load by emacs\"
+ :common       \"Common org-mode settings in string, like #+OPTIONS: num:t\"
  )"
   (let ((file         (or (plist-get args :file)             ""))
         (cache-dir    (or (plist-get args :cache-dir)        ""))
         (output-file  (or (plist-get args :output-file)      ""))
         (htmlize      (or (plist-get args :htmlize)      "true"))
         (theme        (or (plist-get args :theme)            ""))
-        (user-config  (or (plist-get args :user-config)      "")))
+        (user-config  (or (plist-get args :user-config)      ""))
+        (common       (or (plist-get args :common)           "")))
 
     ;; Use emacs's htmlize to syntax highlight source code
     (when (string-equal htmlize "true")
@@ -193,10 +196,15 @@ ARGS:
                (file-exists-p user-config))
       (load user-config))
 
+    ;; Allow use #+BIND: in org-mode
+    (setq org-export-allow-bind-keywords t)
+
     ;; Export file content by ox-hexo.el
     (with-temp-buffer
       ;; Insert input-file contents
       (insert-file-contents file)
+      ;; Insert common options
+      (hexo-renderer-insert-options common)
       ;; Fix for org-mode 8.x file under org-mode 9.x
       (org-mode-compability-fixup)
       ;; Export the org-mode file to HTML (default)
@@ -210,7 +218,7 @@ ARGS:
     (log-info "Exit hexo-render-org")
     (kill-emacs)))
 
-
+
 
 (provide 'init)
 ;;; init.el ends here.

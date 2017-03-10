@@ -11,8 +11,7 @@ describe('Org renderer', function() {
       org: {
         emacs: 'emacs',
         export_cfg: '',
-        //common: '#+OPTIONS: html-postamble:nil'
-        common: '',
+        common: '#+OPTIONS: html-postamble:nil',
         cachedir: './hexo-org-cache/',
         theme: 'tango',
         debug: true

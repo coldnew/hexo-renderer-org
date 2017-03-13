@@ -7,7 +7,7 @@ var read_info = require('./lib/read-info');
 hexo.config.org = assign({
   toc: false,
   emacs: 'emacs',
-  common: '',
+  common: '#+OPTIONS: toc:nil num:nil\n#+BIND: org-html-postamble nil',
   export_cfg: "(progn (package-initialize)(require 'org) (require 'org-clock) (require 'ox))",
   cachedir: './hexo-org-cache/',
   theme: '',

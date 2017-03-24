@@ -107,6 +107,14 @@ Place
   ,#+END_HTML
 #+END_SRC
 
+or for org-mode version 9
+
+#+BEGIN_SRC org
+  ,#+BEGIN_EXPORT html
+  <!--more-->
+  ,#+END_EXPORT
+#+END_SRC
+
 in where you would like to add a ~Read more~
 
 ** How to set caption of image?

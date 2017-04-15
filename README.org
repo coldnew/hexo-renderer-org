@@ -6,18 +6,18 @@
 
 [[https://coldnew.github.io/hexo-org-example/2017/03/05/getting-started-with-hexo-and-org-mode/][Getting Started Guide]]
 
-* Table of Contents                                               :TOC_4_org:
- - [[Why fork ?][Why fork ?]]
- - [[Difference with original one][Difference with original one]]
- - [[Installation][Installation]]
- - [[Options][Options]]
- - [[Create Post][Create Post]]
- - [[Front-matters][Front-matters]]
- - [[Tutorials][Tutorials]]
- - [[Q & A][Q & A]]
-   - [[How to add Read more button?][How to add Read more button?]]
-   - [[How to use htmlize to render code block][How to use htmlize to render code block]]
-   - [[How to install my emacs theme][How to install my emacs theme]]
+* Table of Contents                                               :TOC_2_gh:
+ - [[#why-fork-][Why fork ?]]
+ - [[#difference-with-original-one][Difference with original one]]
+ - [[#installation][Installation]]
+ - [[#options][Options]]
+ - [[#create-post][Create Post]]
+ - [[#front-matters][Front-matters]]
+ - [[#tutorials][Tutorials]]
+ - [[#q--a][Q & A]]
+   - [[#how-to-add-read-more-button][How to add Read more button?]]
+   - [[#how-to-use-htmlize-to-render-code-block][How to use htmlize to render code block]]
+   - [[#how-to-install-my-emacs-theme][How to install my emacs theme]]
 
 * Why fork ?
 

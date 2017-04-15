@@ -18,6 +18,7 @@
    - [[#how-to-add-read-more-button][How to add Read more button?]]
    - [[#how-to-use-htmlize-to-render-code-block][How to use htmlize to render code block]]
    - [[#how-to-install-my-emacs-theme][How to install my emacs theme]]
+   - [[#can-i-clean-cachedir-when-use-hexo-clean-][Can I clean cachedir when use hexo clean ?]]
 
 * Why fork ?
 

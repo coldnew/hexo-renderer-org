@@ -103,11 +103,13 @@
   |--------------+--------------+------------------------------------------------------------|
   | layout       | #+LAYOUT     | post/page                                                  |
   | title        | #+TITLE      | string                                                     |
-  | date         | #+DATE       | <2017-04-15 Sat 12:30>, use ~M-x org-time-stamp- to insert |
-  | updated      | #+UPDATED    | <2017-04-15 Sat 12:30>, use ~M-x org-time-stamp- to insert |
+  | date         | #+DATE       | <2017-04-15 Sat 12:30>, use ~M-x org-time-stamp~ to insert |
+  | updated      | #+UPDATED    | <2017-04-15 Sat 12:30>, use ~M-x org-time-stamp~ to insert |
   | comments     | #+COMMENTS   | yes/no                                                     |
   | tags         | #+TAGS       | tag1, tag2, tag3                                           |
   | categories   | #+CATEGORIES | string                                                     |
+
+  To insert date in org-mode, the default keybinding is =C-c .=, you can also use =C-u C-c .= instead.
 
 * Tutorials
 

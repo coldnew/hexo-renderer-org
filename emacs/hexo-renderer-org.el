@@ -37,27 +37,6 @@
 (setq vc-handled-backends nil)
 
 
-;;;; Timer
-
-;; Debugger
-(run-with-idle-timer
- 1 t (lambda ()
-       ;; When *Backtrace* exist, which means error occured, set `*statue*' to false and write value to `debug-file' then exit.
-       (when (get-buffer "*Backtrace*")
-         (with-current-buffer "*Backtrace*"
-           (message (buffer-string))
-           ;; (kill-emacs)
-           ))
-       ;; Sometimes, there's another error "End of file during parsing:", this error may not trow Error to emacs but just display on *Messages* buffer.
-       (with-current-buffer "*Messages*"
-         (goto-char (point-min))
-         (while (re-search-forward "End of file during parsing" nil t)
-           (message (buffer-string))
-           ;; (kill-emacs)
-           ))
-       ))
-
-
 ;;;; Public variables
 
 (defvar hexo-renderer-org-cachedir "./hexo-org-cache"
@@ -75,7 +54,6 @@
 (defvar hexo-renderer-org-htmlize "false"
   "Enable use Emacs's htmlize package to renderer code block or not.")
 
-
 
 ;;;; Private variables
 
@@ -83,6 +61,37 @@
   (file-name-directory (or load-file-name (buffer-file-name)))
   "This hexo-renderer-org.el file path.")
 
+(defvar hexo-renderer-org--debug-file "./hexo-org-renderer.log"
+  "YOU SHOULD NOT SETUP THIS VARIABLE.")
+
+
+;;;; Debugger
+
+(defun hexo-org-renderer-oops (msg)
+  "OOPS: something error, let's show the MSG and kill EMACS :(."
+  (require 'json)                       ; built-in
+  (let ((oops '(:success :json-false)))
+    (plist-put oops :message msg)
+    ;; Convert to JSON format and write to `*deebug-file*'
+    (with-temp-buffer
+      (insert (json-encode oops))
+      (write-region (point-min) (point-max) hexo-renderer-org--debug-file))
+    ;; bye-bye emacs
+    (kill-emacs)))
+
+;; The emacs daemon SHOULD die when error occurs.
+(run-with-idle-timer
+ 1 t (lambda ()
+       ;; When *Backtrace* exist, which means error occured, set `*statue*' to false and write value to `debug-file' then exit.
+       (when (get-buffer "*Backtrace*")
+         (with-current-buffer "*Backtrace*"
+           (hexo-org-renderer-oops (buffer-string))))
+       ;; Sometimes, there's another error "End of file during parsing:", this error may not trow Error to emacs but just display on *Messages* buffer.
+       (with-current-buffer "*Messages*"
+         (goto-char (point-min))
+         (while (re-search-forward "End of file during parsing" nil t)
+           (hexo-org-renderer-oops (buffer-string))))
+       ))
 
 ;;;; Initial emacs packages
 

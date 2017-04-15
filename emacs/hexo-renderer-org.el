@@ -135,10 +135,12 @@
 ;; https://lists.gnu.org/archive/html/emacs-orgmode/2014-03/msg01337.html
 (if (string-equal hexo-renderer-org-htmlize "true")
     (progn
-      (package-install 'htmlize)                  ; Installed by packages.el
+      (package-install 'htmlize)        ; Installed by packages.el
       (require 'htmlize))
-    ;; disable htmlize
-    (setq org-html-htmlize-output-type nil))
+    ;; FIXME: how to disable htmlize for org-version < 9.x ?
+    ;; for org-mode >= 9.0.0
+    (when (version<= org-version "9.0.0")
+      (setq org-html-htmlize-output-type nil)))
 
 ;; Allow use #+BIND: in org-mode
 (setq org-export-allow-bind-keywords t)

@@ -137,7 +137,7 @@
 
    If the emacs theme you want to use is not installed by default, you can setup the ~_config.yml~
 
-   For example, if we want to use [[https://github.com/kuanyui/moe-theme.el][moe-theme]] for our code block, we need to edit =_config.yml= like this:
+   For example, if we want to use [[https://github.com/kuanyui/moe-theme.el][moe-theme]] for your code block, we need to edit =_config.yml= like this:
 
    #+BEGIN_SRC yaml
        org:

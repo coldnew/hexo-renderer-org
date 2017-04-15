@@ -92,6 +92,7 @@
          (while (re-search-forward "End of file during parsing" nil t)
            (hexo-org-renderer-oops (buffer-string))))
        ))
+
 
 ;;;; Initial emacs packages
 
@@ -104,6 +105,8 @@
 ;; Extra package repos
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives
+             '("org" . "http://orgmode.org/elpa/") t)
 
 ;; For important compatibility libraries like cl-lib
 (when (< emacs-major-version 24)
@@ -120,12 +123,34 @@
   (package-refresh-contents))
 
 ;; Install deps packages
-(package-install 'org)                      ; Installed by packages.el
+(package-install 'org-plus-contrib)     ; Installed by packages.el
 
 
 ;;;; Initial org-mode and ox-hexo.el
+
 (require 'org)
 (require 'ox-html)
+
+;; Make sure we really use org-mode 9.x
+(when (version< org-version "9.0.0")
+  (hexo-org-renderer-oops
+   (format
+    "
+\e[1m\e[31mERROR:\e[0m
+
+  hexo-renderer-org ONLY work on org-mode 9.x.
+
+  Please remove your %s and let hexo-renderer-org re-download org-mode package again.
+
+  Package info:
+
+    emacs     : %s
+    org-mode  : %s
+
+"
+    hexo-renderer-org-cachedir
+    emacs-version
+    org-version)))
 
 ;; load ox-hexo.el
 (add-to-list 'load-path hexo-renderer-org--load-path)

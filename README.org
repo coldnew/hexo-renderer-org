@@ -17,6 +17,7 @@
  - [[Q & A][Q & A]]
    - [[How to add Read more button?][How to add Read more button?]]
    - [[How to use htmlize to render code block][How to use htmlize to render code block]]
+   - [[How to install my emacs theme][How to install my emacs theme]]
 
 * Why fork ?
 
@@ -127,5 +128,24 @@
    #+BEGIN_SRC yaml
      highlight:
        enable: false   # <--- Set this false to enable use emacs syntax highligt code block
-       number: false
+   #+END_SRC
+
+** How to install my emacs theme
+
+   If the emacs theme you want to use is not installed by default, you can setup the ~_config.yml~
+
+   For example, if we want to use [[https://github.com/kuanyui/moe-theme.el][moe-theme]] for our code block, we need to edit =_config.yml= like this:
+
+   #+BEGIN_SRC yaml
+       org:
+         # skip ...
+         theme: 'moe-dark'
+         user_config: './emacs/init.el'
+   #+END_SRC
+
+   Then add following code to your =./emacs/init.el=.
+
+   #+BEGIN_SRC emacs-lisp
+     ;; install moe-theme
+     (package-install 'moe-theme)
    #+END_SRC

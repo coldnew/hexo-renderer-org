@@ -78,7 +78,7 @@
   Create =source/_posts/foobar.org= with followin content:
 
   #+BEGIN_SRC org
-    ,#+TITLE: Hello -  World
+    ,#+TITLE: Hello World
     ,#+DATE: <2017-03-05 Sun 08:52>
     ,#+LAYOUT: post
     ,#+CATEGORIES: orgmode

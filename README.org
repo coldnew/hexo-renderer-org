@@ -15,6 +15,7 @@
  - [[#front-matters][Front-matters]]
  - [[#tutorials][Tutorials]]
  - [[#q--a][Q & A]]
+   - [[#which-org-mode-version-do-you-use-][Which org-mode version do you use ?]]
    - [[#how-to-add-read-more-button][How to add Read more button?]]
    - [[#how-to-use-htmlize-to-render-code-block][How to use htmlize to render code block]]
    - [[#how-to-install-my-emacs-theme][How to install my emacs theme]]
@@ -119,6 +120,12 @@
   - [[https://coldnew.github.io/hexo-org-example/2017/03/05/getting-started-with-hexo-and-org-mode/][Getting started with hexo and org-mode]]
 
 * Q & A
+
+** Which org-mode version do you use ?
+
+   This renderer *ONLY* support =org-mode 9.x= syntax, be careful there's some conflict with org-mode 9.x and 8.x.
+
+   For futher information, please take a look at: http://orgmode.org/Changes.html
 
 ** How to add Read more button?
 

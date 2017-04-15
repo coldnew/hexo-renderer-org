@@ -151,3 +151,15 @@
      ;; install moe-theme
      (package-install 'moe-theme)
    #+END_SRC
+
+** Can I clean cachedir when use hexo clean ?
+
+   If you want to make =hexo clean= work with [[https://github.com/coldnew/hexo-renderer-org][hexo-renderer-org]], you can setup your ~_config.yml~.
+
+   #+BEGIN_SRC yaml
+       org:
+         # skip ...
+         clean_cache: true
+   #+END_SRC
+
+   Note that the emacs-lisp cache in cachedir will be kept after =hexo clean=, you can manually remove it if you want to re-fetch all emacs-lisp plugin.

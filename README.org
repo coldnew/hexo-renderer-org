@@ -57,7 +57,7 @@
           ,#+OPTIONS: toc:nil
           ,#+BIND: org-html-postamble \"Last Updated %C.</br>Render by <a href='https://github.com/coldnew/hexo-renderer-org'>coldnew/hexo-renderer-org</a> with %c\"
         cachedir: './hexo-org-cache/'
-        clean_cache: true
+        clean_cache: false
         theme: 'leuven'
         user_config: './emacs/init.el'
   #+END_SRC

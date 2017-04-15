@@ -16,7 +16,8 @@
  - [[#tutorials][Tutorials]]
  - [[#q--a][Q & A]]
    - [[#which-org-mode-version-do-you-use-][Which org-mode version do you use ?]]
-   - [[#how-to-add-read-more-button][How to add Read more button?]]
+   - [[#how-can-i-connect-to-emacs-daemon-][How can I connect to emacs daemon ?]]
+   - [[#how-to-add-read-more-button-][How to add Read more button ?]]
    - [[#how-to-use-htmlize-to-render-code-block][How to use htmlize to render code block]]
    - [[#how-to-install-my-emacs-theme][How to install my emacs theme]]
    - [[#can-i-clean-cachedir-when-use-hexo-clean-][Can I clean cachedir when use hexo clean ?]]
@@ -127,7 +128,15 @@
 
    For futher information, please take a look at: http://orgmode.org/Changes.html
 
-** How to add Read more button?
+** How can I connect to emacs daemon ?
+
+   [[https://github.com/coldnew/hexo-renderer-org][hexo-renderer-org]] create a emacs daemon named =hexo-renderer-org=, you can connect the daemone via following command for debug purpose:
+
+   #+BEGIN_SRC sh
+     emacsclient -nw -s hexo-renderer-org
+   #+END_SRC
+
+** How to add Read more button ?
 
    Place =#+HTML: <!-- more -->= in where you would like to add a ~Read more~.
 

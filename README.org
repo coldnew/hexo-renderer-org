@@ -71,6 +71,7 @@
   | clean_cache | set true to clean cache by 'hexo clean' | false                                                      |
   | theme       | emacs's theme you want to use           |                                                            |
   | user_config | extra emacs config you want to load     |                                                            |
+  | debug       | Show more debug message                 | false                                                      |
 
 * Create Post
 

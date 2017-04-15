@@ -1,165 +1,130 @@
+#+TITLE: hexo-renderer-org (fork)
+
 [[https://circleci.com/gh/coldnew/hexo-renderer-org][https://circleci.com/gh/coldnew/hexo-renderer-org.svg?style=svg]]
-[[https://www.npmjs.com/package/hexo-renderer-org][https://badge.fury.io/js/hexo-renderer-org.svg]]
 
-This is my *fork* of [[https://github.com/CodeFalling/hexo-renderer-org][hexo-render-org]], which use emacs to htmlize the post instead of use highlight.js.
+[[https://hexo.io][Hexo]] renderer plugin for emacs [[https://orgmode.org/][org-mode]].
 
-I am still working on this plugin, but it can use now :).
-
-Some features may PR back to [[https://github.com/CodeFalling/hexo-renderer-org][hexo-render-org]] if the original author accept that feature.
-
-For more infor, please see [[https://coldnew.github.io/hexo-org-example/2017/03/05/getting-started-with-hexo-and-org-mode/][
-Getting Started with the Hexo and org-mode]] first.
-
-=------ FOLLOWING CONTENTS NEED TO BE REVIEWED ------=
+[[https://coldnew.github.io/hexo-org-example/2017/03/05/getting-started-with-hexo-and-org-mode/][Getting Started Guide]]
 
 * Table of Contents                                               :TOC_4_org:
-  - [[hexo-renderer-org][hexo-renderer-org]]
-  - [[Usage][Usage]]
+ - [[Why fork ?][Why fork ?]]
+ - [[Difference with original one][Difference with original one]]
+ - [[Installation][Installation]]
  - [[Options][Options]]
-   - [[A more functional example][A more functional example]]
- - [[How to create new post][How to create new post]]
- - [[Q&A][Q&A]]
-   - [[How to add ~Read more~ button?][How to add ~Read more~ button?]]
-   - [[How to set caption of image?][How to set caption of image?]]
-   - [[Old pure-js version][Old pure-js version]]
-   - [[Front-matter not work?][Front-matter not work?]]
-   - [[How to enable line number?][How to enable line number?]]
+ - [[Create Post][Create Post]]
+ - [[Front-matters][Front-matters]]
+ - [[Tutorials][Tutorials]]
+ - [[Q & A][Q & A]]
+   - [[How to add Read more button?][How to add Read more button?]]
+   - [[How to use htmlize to render code block][How to use htmlize to render code block]]
 
-*  hexo-renderer-org
+* Why fork ?
 
-Hexo renderer plugin for emacs org-mode
+  Before I start to use [[https://github.com/CodeFalling/hexo-renderer-org][hexo-renderer-org]], I already have another tool called [[https://github.com/coldnew/org-hexo][org-hexo]], which can use org-mode's publish method to generate html code then let [[https://hexo.io][hexo]] renderer it. However, since my posts grow large, the org-publish is more slow then I think. That's why I try the [[https://github.com/CodeFalling/hexo-renderer-org][hexo-renderer-org]].
 
-中文动态：[[https://codefalling.com/tags/hexo-renderer-org/][标签: hexo-renderer-org | M-x codefalling]]
+  The [[https://github.com/CodeFalling/hexo-renderer-org][hexo-renderer-org]] is really greate but it doesn't support use emacs's =htmlize= to render my code block, and that's why I create my fork.
 
-*  Usage
+  Some features may PR back to [[https://github.com/CodeFalling/hexo-renderer-org][CodeFalling/hexo-render-org]] if the original author accept that feature.
 
-Cd to your hexo blog.Run
+* Difference with original one
 
-#+BEGIN_SRC shell
-npm install https://github.com/CodeFalling/hexo-renderer-org#emacs --save
-#+END_SRC
+  The main difference is:
 
-You can also install it from npm,too.
+  - This fork use =emacs daemon= to speedup render speed.
+  - This fork support use emacs's =htmlize= to syntax highlight your code block.
 
-Then restart your hexo server.
+* Installation
+
+  Switch to your blog directory and run:
+
+  #+BEGIN_SRC sh
+    npm install https://github.com/coldnew/hexo-renderer-org#coldnew --save
+  #+END_SRC
+
+  Then restart your hexo server.
 
 * Options
 
-You can configure this plugin in ~_config.yml~.
+  You can configure this plugin in ~_config.yml~.
 
-#+BEGIN_SRC yml
-org:
-  emacs: '/Applications/Emacs.app/Contents/MacOS/Emacs'
-  common: |
-          #+OPTIONS: toc:nil
-          #+BIND: org-html-postamble \"Last Updated %C.</br>Render by <a href='https://github.com/CodeFalling/hexo-renderer-org'>hexo-renderer-org</a> with %c\"
-  cachedir: './hexo-org-cache/'
-#+END_SRC
+  #+BEGIN_SRC yaml
+      org:
+        emacs: 'emacs'
+        emacsclient: 'emacsclient'
+        common: |
+          ,#+OPTIONS: toc:nil
+          ,#+BIND: org-html-postamble \"Last Updated %C.</br>Render by <a href='https://github.com/coldnew/hexo-renderer-org'>coldnew/hexo-renderer-org</a> with %c\"
+        cachedir: './hexo-org-cache/'
+        clean_cache: true
+        theme: 'leuven'
+        user_config: './emacs/init.el'
+  #+END_SRC
 
-1. ~emacs~ is execute file of emacs
-2. ~common~ is common org content or you want to insert before renderer every org file.This is a example to disable toc.
-3. ~cachedir~ is where your cache file located.With this option ~hexo-org-renderer~ will enable cache. *Recommend for a much faster speed*.
-   Default enable.
+  And here's some doc:
 
-** A more functional example
-#+BEGIN_SRC yml
-org:
-    emacs: '/Applications/Emacs.app/Contents/MacOS/Emacs'  
-    common: |
-            #+OPTIONS: toc:nil num:nil
-            #+BEGIN_HTML
-              <script>
-                function editAtGithub(isRaw){
-                  var url_parts = document.location.pathname.split('/');
-                  var postname = url_parts[url_parts.length - 2];
-                  if(url_parts.length == 3){ // is a page(wiki about etc)
-                    postname = postname + '/index.org';
-                  }else{
-                    postname = '_posts/' + postname + '.org';
-                  }
-                  var url = 'https://github.com/CodeFalling/codefalling.com/tree/source/source/' + postname;
-                  if(isRaw)
-                    url = 'https://raw.githubusercontent.com/CodeFalling/codefalling.com/source/source/' + postname;
-                  window.open(url);
-                }
-              </script>
-            #+END_HTML
-            #+BIND: org-html-postamble \"<div style='font-size: 14px;padding: 5px;line-height: 20px;border: 1px solid;'><a href='javascript: editAtGithub();'>Edit Me at Github</a> - <a href='javascript: editAtGithub(true)'>Org Source</a> - Last Updated %C.</br>Render by <a href='https://github.com/CodeFalling/hexo-renderer-org'>hexo-renderer-org</a> with %c</div>\"
-#+END_SRC
+  | config      | description                             | default value                                              |
+  |-------------+-----------------------------------------+------------------------------------------------------------|
+  | emacs       | executable file of emacs                | emacs                                                      |
+  | emacsclient | executable file of emacsclient          | emacsclient                                                |
+  | common      | common org content you'll use           | #+OPTIONS: toc:nil num:nil\n#+BIND: org-html-postamble nil |
+  | cachedir    | where cache file located                | ./hexo-org-cache/                                          |
+  | clean_cache | set true to clean cache by 'hexo clean' | false                                                      |
+  | theme       | emacs's theme you want to use           |                                                            |
+  | user_config | extra emacs config you want to load     |                                                            |
 
-This example add a ~Edit Me at Github - Org Source~ at every org page.
-* How to create new post
+* Create Post
 
-Create ~balbala.org~ in source/_posts/,there is a template:
+  Create =source/_posts/foobar.org= with followin content:
 
-#+BEGIN_SRC org
-  ,#+TITLE: Hello,orgmode
-  ,#+DATE: <2015-11-15 Sun 17:00>
-  ,#+TAGS: emacs, orgmode, hexo
-  ,#+LAYOUT: post
-  ,#+CATEGORIES: orgmode
-  ,* Orgmode
-  ,** Why org
-  ,#+BEGIN_SRC js
-  console.log('hello');
-  ,#+END_SRC
-  我编不下去了。。
-#+END_SRC
+  #+BEGIN_SRC org
+    ,#+TITLE: Hello -  World
+    ,#+DATE: <2017-03-05 Sun 08:52>
+    ,#+LAYOUT: post
+    ,#+CATEGORIES: orgmode
+    ,#+TAGS: hexo, org-mode
 
-* Q&A
+    Welcome to [[https://github.com/coldnew/hexo-renderer-org][coldnew/hexo-renderer-org]]!
 
-** How to add ~Read more~ button?
+    ,#+HTML: <!-- more -->
 
-Place
+    You also can add some code block:
 
-#+BEGIN_SRC org
-  ,#+BEGIN_HTML
-  <!--more-->
-  ,#+END_HTML
-#+END_SRC
+    ,#+BEGIN_SRC js
+      console.log("hi");
+    ,#+END_SRC
+  #+END_SRC
+* Front-matters
 
-in where you would like to add a ~Read more~
+  [[https://orgmode.org/][org-mode]] has it's own way to describe meta info:
 
-** How to set caption of image?
-Hexo use `alt` as title of image.
+  | Front-matter | org-mode     | value                                                      |
+  |--------------+--------------+------------------------------------------------------------|
+  | layout       | #+LAYOUT     | post/page                                                  |
+  | title        | #+TITLE      | string                                                     |
+  | date         | #+DATE       | <2017-04-15 Sat 12:30>, use ~M-x org-time-stamp- to insert |
+  | updated      | #+UPDATED    | <2017-04-15 Sat 12:30>, use ~M-x org-time-stamp- to insert |
+  | comments     | #+COMMENTS   | yes/no                                                     |
+  | tags         | #+TAGS       | tag1, tag2, tag3                                           |
+  | categories   | #+CATEGORIES | string                                                     |
 
-So just use
-#+BEGIN_EXAMPLE
-  #+ATTR_HTML:  :alt caption
-  [[image url]]
-#+END_EXAMPLE
-** Old pure-js version
+* Tutorials
 
-See [[https://github.com/CodeFalling/hexo-renderer-org/tree/old-js-version][CodeFalling/hexo-renderer-org at old-js-version]] for old pure-js version.
+  For more tutorials, please see:
 
-** Front-matter not work?
+  - [[https://coldnew.github.io/hexo-org-example/2017/03/05/getting-started-with-hexo-and-org-mode/][Getting started with hexo and org-mode]]
 
-Orgmode has its own way to describe meta info of post,such as title,date etc.
+* Q & A
 
-| Front-matter | Orgmode      | Value                                                             |
-|--------------+--------------+-------------------------------------------------------------------|
-| layout       | #+LAYOUT     | post/page                                                         |
-| title        | #+TITLE      | string                                                            |
-| date         | #+DATE       | <2015-11-16 Mon 20:45>, you can use ~M-x org-time-stamp~ in emacs |
-| comments     | #+COMMENTS   | yes/no                                                            |
-| tags         | #+TAGS       | tag1, tag2, tag3                                                  |
-| categories   | #+CATEGORIES |                                                                   |
-| updated      | #+UPDATED    | <2015-11-16 Mon 20:45>, you can use ~M-x org-time-stamp~ in emacs |
-| permalink    | #+PERMALINK  | blog/2013/04-12_64cf9/                                            |
+** How to add Read more button?
 
-** How to enable line number?
-Config in your ~_config.yml~
+   Place =#+HTML: <!-- more -->= in where you would like to add a ~Read more~.
 
-#+BEGIN_EXAMPLE
-  highlight:
-    enable: true
-    number: false
-#+END_EXAMPLE
+** How to use htmlize to render code block
 
-** Disable number of outline
+   config in your ~_config.yml~
 
-#+BEGIN_SRC yaml
-org:
-  common: |
-          #+OPTIONS: num: nil
-#+END_SRC
+   #+BEGIN_SRC yaml
+     highlight:
+       enable: false   # <--- Set this false to enable use emacs syntax highligt code block
+       number: false
+   #+END_SRC

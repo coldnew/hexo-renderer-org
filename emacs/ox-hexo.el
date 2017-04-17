@@ -35,16 +35,7 @@
 
 ;;;; metadata
 
-(defvar org-hexo--options-alist
-  '(;; buildin in org-mode
-    ;; (:date      "DATE"       nil     nil)
-    (:tags      "TAGS"       nil     nil)
-    (:category  "CATEGORY"   nil     nil)
-    ;; Need by hexo
-    (:layout    "LAYOUT"     nil     nil)
-    (:updated   "UPDATED"    nil     nil)
-    (:comments  "COMMENTS"   nil     nil)
-    (:permalink "PERMALINK"  nil     nil)))
+
 
 
 ;;;; Backend
@@ -53,12 +44,9 @@
   :translate-alist
   '( ;; Fix for multibyte language
     (paragraph . org-hexo-html-paragraph)
-    ;; Fix toc for org-hexo theme
-    ;; (inner-template . org-hexo-html-inner-template)
     ;; convert relative link to let pelican can recognize
-    (link . org-hexo-html-link))
-  ;; :options-alist org-hexo--options-alist
-  )
+    (link . org-hexo-html-link)
+    ))
 
 
 ;;;; Paragraph

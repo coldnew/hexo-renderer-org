@@ -90,18 +90,18 @@ a communication channel."
             (replace-regexp-in-string raw-link
                                       (file-name-nondirectory raw-path) html-link)))
 
-  ;; Fix generate link
-  (replace-regexp-in-string
-   "<a href=\"\\(.*?\\)\"\s+class=\"\\(.*?\\)\"\\(.*?\\)" "<a href=\"\\1\" \\3"
-   (replace-regexp-in-string
-    "<img src=\"\\(.*?\\)\"\s+alt=\"\\(.*?\\)\"\\(.*?\\)" "<img src=\"\\1\" \\3" html-link))
-  ))
+    ;; Fix generate link
+    (replace-regexp-in-string
+     "<a href=\"\\(.*?\\)\"\s+class=\"\\(.*?\\)\"\\(.*?\\)" "<a href=\"\\1\" \\3"
+     (replace-regexp-in-string
+      "<img src=\"\\(.*?\\)\"\s+alt=\"\\(.*?\\)\"\\(.*?\\)" "<img src=\"\\1\" \\3" html-link))
+    ))
 
 
 ;;; src block
 
 (defun org-html-do-format-code
-  (code &optional lang refs retain-labels num-start)
+    (code &optional lang refs retain-labels num-start)
   "Format CODE string as source code.
 Optional arguments LANG, REFS, RETAIN-LABELS and NUM-START are,
 respectively, the language of the source code, as a string, an
@@ -110,29 +110,29 @@ alist between line numbers and references (as returned by
 appear in the source code, and the number associated to the first
 line of code."
   (let* ((code-lines (org-split-string code "\n"))
-   (code-length (length code-lines))
-   (num-fmt
-    (and num-start
-         (format "%%%ds: "
-           (length (number-to-string (+ code-length num-start))))))
-   (code (org-html-fontify-code code lang)))
+         (code-length (length code-lines))
+         (num-fmt
+          (and num-start
+               (format "%%%ds: "
+                       (length (number-to-string (+ code-length num-start))))))
+         (code (org-html-fontify-code code lang)))
     (org-export-format-code
      code
      (lambda (loc line-num ref)
        (setq loc
-       (concat
-        ;; Add line number, if needed.
-        (when num-start
-    (format "<span class=\"linenr\">%s</span>"
-      (format num-fmt line-num)))
-        ;; Transcoded src line.
-        loc
-        ;; Add label, if needed.
-        (when (and ref retain-labels) (format " (%s)" ref))))
+             (concat
+              ;; Add line number, if needed.
+              (when num-start
+                (format "<span class=\"linenr\">%s</span>"
+                        (format num-fmt line-num)))
+              ;; Transcoded src line.
+              loc
+              ;; Add label, if needed.
+              (when (and ref retain-labels) (format " (%s)" ref))))
        ;; Mark transcoded line as an anchor, if needed.
        (if (not ref) loc
-   (format "<span id=\"coderef-%s\" class=\"coderef-off\">%s</span>"
-     ref loc)))
+           (format "<span id=\"coderef-%s\" class=\"coderef-off\">%s</span>"
+                   ref loc)))
      num-start refs)))
 
 (defun org-html-format-code (element info)
@@ -140,14 +140,14 @@ line of code."
 ELEMENT is either an example block or a src block.  INFO is
 a plist used as a communication channel."
   (let* ((lang (org-element-property :language element))
-   ;; Extract code and references.
-   (code-info (org-export-unravel-code element))
-   (code (car code-info))
-   (refs (cdr code-info))
-   ;; Does the src block contain labels?
-   (retain-labels (org-element-property :retain-labels element))
-   ;; Does it have line numbers?
-   (num-start (org-export-get-loc element info)))
+         ;; Extract code and references.
+         (code-info (org-export-unravel-code element))
+         (code (car code-info))
+         (refs (cdr code-info))
+         ;; Does the src block contain labels?
+         (retain-labels (org-element-property :retain-labels element))
+         ;; Does it have line numbers?
+         (num-start (org-export-get-loc element info)))
     (org-html-do-format-code code lang refs retain-labels num-start)))
 
 (defun org-html-src-block (src-block _contents info)

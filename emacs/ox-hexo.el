@@ -46,6 +46,7 @@
     (paragraph . org-hexo-html-paragraph)
     ;; convert relative link to let pelican can recognize
     (link . org-hexo-html-link)
+    (src-block . org-hexo-src-block)
     ))
 
 
@@ -95,6 +96,89 @@ a communication channel."
    (replace-regexp-in-string
     "<img src=\"\\(.*?\\)\"\s+alt=\"\\(.*?\\)\"\\(.*?\\)" "<img src=\"\\1\" \\3" html-link))
   ))
+
+
+;;; src block
+
+(defun org-html-do-format-code
+  (code &optional lang refs retain-labels num-start)
+  "Format CODE string as source code.
+Optional arguments LANG, REFS, RETAIN-LABELS and NUM-START are,
+respectively, the language of the source code, as a string, an
+alist between line numbers and references (as returned by
+`org-export-unravel-code'), a boolean specifying if labels should
+appear in the source code, and the number associated to the first
+line of code."
+  (let* ((code-lines (org-split-string code "\n"))
+   (code-length (length code-lines))
+   (num-fmt
+    (and num-start
+         (format "%%%ds: "
+           (length (number-to-string (+ code-length num-start))))))
+   (code (org-html-fontify-code code lang)))
+    (org-export-format-code
+     code
+     (lambda (loc line-num ref)
+       (setq loc
+       (concat
+        ;; Add line number, if needed.
+        (when num-start
+    (format "<span class=\"linenr\">%s</span>"
+      (format num-fmt line-num)))
+        ;; Transcoded src line.
+        loc
+        ;; Add label, if needed.
+        (when (and ref retain-labels) (format " (%s)" ref))))
+       ;; Mark transcoded line as an anchor, if needed.
+       (if (not ref) loc
+   (format "<span id=\"coderef-%s\" class=\"coderef-off\">%s</span>"
+     ref loc)))
+     num-start refs)))
+
+(defun org-html-format-code (element info)
+  "Format contents of ELEMENT as source code.
+ELEMENT is either an example block or a src block.  INFO is
+a plist used as a communication channel."
+  (let* ((lang (org-element-property :language element))
+   ;; Extract code and references.
+   (code-info (org-export-unravel-code element))
+   (code (car code-info))
+   (refs (cdr code-info))
+   ;; Does the src block contain labels?
+   (retain-labels (org-element-property :retain-labels element))
+   ;; Does it have line numbers?
+   (num-start (org-export-get-loc element info)))
+    (org-html-do-format-code code lang refs retain-labels num-start)))
+
+(defun org-html-src-block (src-block _contents info)
+  "Transcode a SRC-BLOCK element from Org to HTML.
+CONTENTS holds the contents of the item.  INFO is a plist holding
+contextual information."
+  (if (org-export-read-attribute :attr_html src-block :textarea)
+      (org-html--textarea-block src-block)
+      (let ((lang (org-element-property :language src-block))
+            (code (org-html-format-code src-block info))
+            (label (let ((lbl (and (org-element-property :name src-block)
+                                   (org-export-get-reference src-block info))))
+                     (if lbl (format " id=\"%s\"" lbl) ""))))
+        (if (not lang) (format "<pre class=\"example\"%s>\n%s</pre>" label code)
+            (format "<div class=\"org-src-container\">\n%s%s\n</div>"
+                    ;; Build caption.
+                    (let ((caption (org-export-get-caption src-block)))
+                      (if (not caption) ""
+                          (let ((listing-number
+                                 (format
+                                  "<span class=\"listing-number\">%s </span>"
+                                  (format
+                                   (org-html--translate "Listing %d:" info)
+                                   (org-export-get-ordinal
+                                    src-block info nil #'org-html--has-caption-p)))))
+                            (format "<label class=\"org-src-name\">%s%s</label>"
+                                    listing-number
+                                    (org-trim (org-export-data caption info))))))
+                    ;; Contents.
+                    (format "<pre class=\"src src-%s\"%s>%s</pre>"
+                            lang label code))))))
 
 
 ;;; End-user functions

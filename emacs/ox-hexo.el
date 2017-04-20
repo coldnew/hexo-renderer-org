@@ -148,8 +148,8 @@ a plist used as a communication channel."
          (num-start (org-export-get-loc element info)))
     (org-html-do-format-code code lang refs retain-labels num-start)))
 
-(defun org-html-src-block (src-block _contents info)
-  "Transcode a SRC-BLOCK element from Org to HTML.
+(defun org-hexo-src-block (src-block _contents info)
+  "Transcode a SRC-BLOCK element from Org to HEXO.
 CONTENTS holds the contents of the item.  INFO is a plist holding
 contextual information."
   (if (org-export-read-attribute :attr_html src-block :textarea)

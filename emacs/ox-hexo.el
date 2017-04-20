@@ -81,15 +81,13 @@ a communication channel."
 
     ;; file
     (when (string= type "file")
-
       ;; Fix file link if prefix with org-mode file name.
       ;; ex: if we has `hi.org' and asset dir `hi'
       ;; in hi.org: [[file:hi/xxx.png]] will be read as [[file:xxx.png]], this will help hexo
       ;; not have problem when render image path.
       (setq html-link
-            (replace-regexp-in-string raw-link
+            (replace-regexp-in-string (regexp-quote raw-link)
                                       (file-name-nondirectory raw-path) html-link)))
-
     ;; Fix generate link
     (replace-regexp-in-string
      "<a href=\"\\(.*?\\)\"\s+class=\"\\(.*?\\)\"\\(.*?\\)" "<a href=\"\\1\" \\3"

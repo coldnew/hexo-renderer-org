@@ -104,7 +104,7 @@
   #+END_SRC
 * Front-matters
 
-  [[https://orgmode.org/][org-mode]] has it's own way to describe meta info:
+  [[https://orgmode.org/][org-mode]] has it's own way to describe the [[https://hexo.io/docs/front-matter.html][front-matter]].
 
   | Front-matter | org-mode     | value                                                      |
   |--------------+--------------+------------------------------------------------------------|

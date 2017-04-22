@@ -49,6 +49,8 @@
     (link . org-hexo-html-link)
     ;; For line-number and highlight.js support
     (src-block . org-hexo-src-block)
+    ;; Remove unuse html in template
+    (template . org-hexo-template)
     ))
 
 
@@ -68,6 +70,25 @@ a communication channel."
 
     ;; Send modify data to func
     (org-html-paragraph paragraph contents info)))
+
+
+;;; Template
+
+(defun org-hexo-template (contents info)
+  "Return complete document string after HTML conversion.
+CONTENTS is the transcoded contents string.  INFO is a plist
+holding export options."
+  (concat
+   ;; Preamble.
+   (org-html--build-pre/postamble 'preamble info)
+   ;; Document contents.
+   (let ((div (assq 'content (plist-get info :html-divs))))
+     (format "%s%s%s"
+             (format "<%s id=\"%s\">\n" (nth 1 div) (nth 2 div))
+             contents
+             (format "</%s>\n" (nth 1 div))))
+   ;; Postamble.
+   (org-html--build-pre/postamble 'postamble info)))
 
 
 ;;;; Link

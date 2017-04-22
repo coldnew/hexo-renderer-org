@@ -33,9 +33,10 @@
 (require 'ox-publish)
 
 
-;;;; metadata
+;;;; user config
 
-
+(defvar org-hexo-use-line-number nil
+  "Set t to add line-number to all src block.")
 
 
 ;;;; Backend
@@ -46,6 +47,7 @@
     (paragraph . org-hexo-html-paragraph)
     ;; convert relative link to let pelican can recognize
     (link . org-hexo-html-link)
+    ;; For line-number and highlight.js support
     (src-block . org-hexo-src-block)
     ))
 
@@ -94,6 +96,8 @@ a communication channel."
      (replace-regexp-in-string
       "<img src=\"\\(.*?\\)\"\s+alt=\"\\(.*?\\)\"\\(.*?\\)" "<img src=\"\\1\" \\3" html-link))
     ))
+
+
 
 
 ;;; src block

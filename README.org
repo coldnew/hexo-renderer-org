@@ -68,16 +68,17 @@
 
   And here's some doc:
 
-  | config      | description                             | default value                                              |
-  |-------------+-----------------------------------------+------------------------------------------------------------|
-  | emacs       | executable file of emacs                | emacs                                                      |
-  | emacsclient | executable file of emacsclient          | emacsclient                                                |
-  | common      | common org content you'll use           | #+OPTIONS: toc:nil num:nil\n#+BIND: org-html-postamble nil |
-  | cachedir    | where cache file located                | ./hexo-org-cache/                                          |
-  | clean_cache | set true to clean cache by 'hexo clean' | false                                                      |
-  | theme       | emacs's theme you want to use           |                                                            |
-  | user_config | extra emacs config you want to load     |                                                            |
-  | debug       | Show more debug message                 | false                                                      |
+  | config      | description                              | default value                                              |
+  |-------------+------------------------------------------+------------------------------------------------------------|
+  | emacs       | executable file of emacs                 | emacs                                                      |
+  | emacsclient | executable file of emacsclient           | emacsclient                                                |
+  | common      | common org content you'll use            | #+OPTIONS: toc:nil num:nil\n#+BIND: org-html-postamble nil |
+  | cachedir    | where cache file located                 | ./hexo-org-cache/                                          |
+  | clean_cache | set true to clean cache by 'hexo clean'  | false                                                      |
+  | theme       | emacs's theme you want to use            |                                                            |
+  | user_config | extra emacs config you want to load      |                                                            |
+  | line_number | Enable line-number globally on src-block | false                                                      |
+  | debug       | Show more debug message                  | false                                                      |
 
 * Create Post
 
@@ -182,3 +183,20 @@
    #+END_SRC
 
    Note that the emacs-lisp cache in cachedir will be kept after =hexo clean=, you can manually remove it if you want to re-fetch all emacs-lisp plugin.
+** [htmlize] How can I add line-number on src-block ?
+
+   If you are =htmlize= to render your src-block, you can add following to your =_config.yml= to make line-number display =globally=:
+
+   #+BEGIN_SRC yaml
+     org:
+       # Make src-block has line-number (this won't make effect on example-block)
+       line_number: true
+   #+END_SRC
+
+   Or use org-mode's [[http://orgmode.org/manual/Literal-examples.html][standard method]] to add line-number manually:
+
+   #+BEGIN_SRC org
+     ,#+BEGIN_SRC js -n
+        console.log("This is line 1")
+     ,#+END_SRC
+   #+END_SRC

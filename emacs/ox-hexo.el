@@ -36,7 +36,11 @@
 ;;;; user config
 
 (defvar org-hexo-use-line-number nil
-  "Set t to add line-number to all src block.")
+  "Set t to add line-number to all src-block.")
+
+(defvar org-hexo-use-line-number-on-example-block nil
+  "Set t to add line-number to all example-block.
+If you want to make example-block has line-number, you also need to setup `org-hexo-use-line-number' to t.")
 
 
 ;;;; Backend
@@ -49,6 +53,7 @@
     (link . org-hexo-html-link)
     ;; For line-number and highlight.js support
     (src-block . org-hexo-src-block)
+    (example-block . org-hexo-example-block)
     ;; Remove unuse html in template
     (template . org-hexo-template)
     ))
@@ -123,7 +128,7 @@ a communication channel."
 
 ;;; src block
 
-(defun org-html-do-format-code
+(defun org-hexo-do-format-code
     (code &optional lang refs retain-labels num-start)
   "Format CODE string as source code.
 Optional arguments LANG, REFS, RETAIN-LABELS and NUM-START are,
@@ -136,7 +141,7 @@ line of code."
          (code-length (length code-lines))
          (num-fmt
           (and num-start
-               (format "%%%ds: "
+               (format "%%%ds "
                        (length (number-to-string (+ code-length num-start))))))
          (code (org-html-fontify-code code lang)))
     (org-export-format-code
@@ -158,7 +163,7 @@ line of code."
                    ref loc)))
      num-start refs)))
 
-(defun org-html-format-code (element info)
+(defun org-hexo-format-code (element info)
   "Format contents of ELEMENT as source code.
 ELEMENT is either an example block or a src block.  INFO is
 a plist used as a communication channel."
@@ -170,8 +175,15 @@ a plist used as a communication channel."
          ;; Does the src block contain labels?
          (retain-labels (org-element-property :retain-labels element))
          ;; Does it have line numbers?
-         (num-start (org-export-get-loc element info)))
-    (org-html-do-format-code code lang refs retain-labels num-start)))
+         (num-start
+          (or (org-export-get-loc element info)
+              ;; If it doesn't, does we enable line number globally ?
+              (and lang org-hexo-use-line-number 0)
+              ;; example-block is disable line-number globally support by default
+              ;; If user really want to enable this, they should setup `org-hexo-use-line-number-on-example-block' manually.
+              (and (not lang)
+                   (and org-hexo-use-line-number-on-example-block 0)))))
+    (org-hexo-do-format-code code lang refs retain-labels num-start)))
 
 (defun org-hexo-src-block (src-block _contents info)
   "Transcode a SRC-BLOCK element from Org to HEXO.
@@ -180,7 +192,7 @@ contextual information."
   (if (org-export-read-attribute :attr_html src-block :textarea)
       (org-html--textarea-block src-block)
       (let ((lang (org-element-property :language src-block))
-            (code (org-html-format-code src-block info))
+            (code (org-hexo-format-code src-block info))
             (label (let ((lbl (and (org-element-property :name src-block)
                                    (org-export-get-reference src-block info))))
                      (if lbl (format " id=\"%s\"" lbl) ""))))
@@ -202,6 +214,23 @@ contextual information."
                     ;; Contents.
                     (format "<pre class=\"src src-%s\"%s>%s</pre>"
                             lang label code))))))
+
+
+(defun org-hexo-example-block (example-block _contents info)
+  "Transcode a EXAMPLE-BLOCK element from Org to HTML.
+CONTENTS is nil.  INFO is a plist holding contextual
+information."
+  (let ((attributes (org-export-read-attribute :attr_html example-block)))
+    (if (plist-get attributes :textarea)
+  (org-html--textarea-block example-block)
+      (format "<pre class=\"example\"%s>\n%s</pre>"
+        (let* ((name (org-element-property :name example-block))
+         (a (org-html--make-attribute-string
+       (if (or (not name) (plist-member attributes :id))
+           attributes
+         (plist-put attributes :id name)))))
+    (if (org-string-nw-p a) (concat " " a) ""))
+        (org-hexo-format-code example-block info)))))
 
 
 ;;; End-user functions

@@ -23,6 +23,7 @@
    - [[#how-to-use-htmlize-to-render-code-block][How to use htmlize to render code block]]
    - [[#how-to-install-my-emacs-theme][How to install my emacs theme]]
    - [[#can-i-clean-cachedir-when-use-hexo-clean-][Can I clean cachedir when use hexo clean ?]]
+   - [[#how-can-i-add-line-number-on-src-block-][How can I add line-number on src-block ?]]
 
 * Why fork ?
 
@@ -183,20 +184,24 @@
    #+END_SRC
 
    Note that the emacs-lisp cache in cachedir will be kept after =hexo clean=, you can manually remove it if you want to re-fetch all emacs-lisp plugin.
-** [htmlize] How can I add line-number on src-block ?
+** How can I add line-number on src-block ?
 
-   If you are =htmlize= to render your src-block, you can add following to your =_config.yml= to make line-number display =globally=:
+   [[https://github.com/coldnew/hexo-renderer-org][hexo-renderer-org]] provides two backend to render your code block, choose which backend you use:
 
-   #+BEGIN_SRC yaml
-     org:
-       # Make src-block has line-number (this won't make effect on example-block)
-       line_number: true
-   #+END_SRC
+*** For htmlize backend user
 
-   Or use org-mode's [[http://orgmode.org/manual/Literal-examples.html][standard method]] to add line-number manually:
+    If you are =htmlize= to render your src-block, you can add following to your =_config.yml= to make line-number display =globally=:
 
-   #+BEGIN_SRC org
-     ,#+BEGIN_SRC js -n
-        console.log("This is line 1")
-     ,#+END_SRC
-   #+END_SRC
+    #+BEGIN_SRC yaml
+      org:
+        # Make src-block has line-number (this won't make effect on example-block)
+        line_number: true
+    #+END_SRC
+
+    Or use org-mode's [[http://orgmode.org/manual/Literal-examples.html][standard method]] to add line-number manually:
+
+    #+BEGIN_SRC org
+      ,#+BEGIN_SRC js -n
+         console.log("This is line 1")
+      ,#+END_SRC
+    #+END_SRC

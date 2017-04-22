@@ -190,7 +190,7 @@
 
 *** For htmlize backend user
 
-    If you are =htmlize= to render your src-block, you can add following to your =_config.yml= to make line-number display =globally=:
+    You can add following to your =_config.yml= to make line-number display on your src-block globally:
 
     #+BEGIN_SRC yaml
       org:

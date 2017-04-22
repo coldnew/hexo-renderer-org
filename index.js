@@ -26,7 +26,8 @@ hexo.config.org = assign({
 
 hexo.on('ready', function() {
   // detect if current is execute for server, we have different method to handle emacs server exit.
-  server_mode = process.argv.indexOf('server') > 0 || process.argv.indexOf('s') > 0;
+  // some people may use 'hexo generate --watch' or 'hexo generate -w', which we also need to keep emacs server exist
+  server_mode = process.argv.indexOf('server') > 0 || process.argv.indexOf('s') > 0 || process.argv.indexOf('--watch') > 0 || process.argv.indexOf('-w') > 0;
 
   // detect if we are going to clear all cache file (the 'cachedir/emacs.d' will not remove )
   if(process.argv.indexOf('clean') > 0 ) {

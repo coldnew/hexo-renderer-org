@@ -32,7 +32,9 @@
 
   The [[https://github.com/CodeFalling/hexo-renderer-org][hexo-renderer-org]] is really greate but it doesn't support use emacs's =htmlize= to render my code block, and that's why I create my fork.
 
-  Some features may PR back to [[https://github.com/CodeFalling/hexo-renderer-org][CodeFalling/hexo-render-org]] if the original author accept that feature.
+  This fork supported *both* htmlize and highlight.js method for syntax highlight, you can choose which you like.
+
+  Some features may PR back to [[https://github.com/CodeFalling/hexo-renderer-org][CodeFalling/hexo-render-org]] if the original author accept that feature, but I need time to write the patches.
 
 * Difference with original one
 

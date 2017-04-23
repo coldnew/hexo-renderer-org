@@ -21,6 +21,7 @@
    - [[#how-can-i-connect-to-emacs-daemon-][How can I connect to emacs daemon ?]]
    - [[#how-to-add-read-more-button-][How to add Read more button ?]]
    - [[#how-to-use-htmlize-to-render-code-block][How to use htmlize to render code block]]
+   - [[#how-to-use-highlightjs-to-render-code-block][How to use highlight.js to render code block]]
    - [[#how-to-install-my-emacs-theme][How to install my emacs theme]]
    - [[#can-i-clean-cachedir-when-use-hexo-clean-][Can I clean cachedir when use hexo clean ?]]
    - [[#how-can-i-add-line-number-on-src-block-][How can I add line-number on src-block ?]]
@@ -78,6 +79,7 @@
   | clean_cache | set true to clean cache by 'hexo clean'  | false                                                      |
   | theme       | emacs's theme you want to use            |                                                            |
   | user_config | extra emacs config you want to load      |                                                            |
+  | htmlize     | use emacs's htmlize to syntax highlight  | false                                                      |
   | line_number | Enable line-number globally on src-block | false                                                      |
   | debug       | Show more debug message                  | false                                                      |
 
@@ -149,8 +151,20 @@
    config in your ~_config.yml~
 
    #+BEGIN_SRC yaml
+     org:
+       htmlize: true   # <--- Set this true to enable use emacs syntax highligt code block
+   #+END_SRC
+
+** How to use highlight.js to render code block
+   
+   config in your ~_config.yml~
+
+   #+BEGIN_SRC yaml
      highlight:
-       enable: false   # <--- Set this false to enable use emacs syntax highligt code block
+       enable: true
+  
+     org:
+       htmlize: false   # <--- Set this false to enable use highlight.js on code block
    #+END_SRC
 
 ** How to install my emacs theme

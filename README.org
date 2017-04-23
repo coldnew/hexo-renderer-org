@@ -6,8 +6,6 @@
 
 [[https://coldnew.github.io/hexo-org-example/2017/03/05/getting-started-with-hexo-and-org-mode/][Getting Started Guide]]
 
-*WARNING: Some API are not stable yet, so maybe there are some breaking change :(*
-
 * Table of Contents                                               :TOC_2_gh:
  - [[#why-fork-][Why fork ?]]
  - [[#difference-with-original-one][Difference with original one]]

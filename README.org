@@ -40,6 +40,7 @@
 
   - This fork use =emacs daemon= to speedup render speed.
   - This fork support use emacs's =htmlize= to syntax highlight your code block.
+  - This fork has better highlight.js support by [mapping table](https://github.com/coldnew/hexo-renderer-org/blob/coldnew/emacs/ox-hexo.el#L48).
 
 * Installation
 
@@ -56,16 +57,18 @@
   You can configure this plugin in ~_config.yml~.
 
   #+BEGIN_SRC yaml
-      org:
-        emacs: 'emacs'
-        emacsclient: 'emacsclient'
-        common: |
-          ,#+OPTIONS: toc:nil
-          ,#+BIND: org-html-postamble \"Last Updated %C.</br>Render by <a href='https://github.com/coldnew/hexo-renderer-org'>coldnew/hexo-renderer-org</a> with %c\"
-        cachedir: './hexo-org-cache/'
-        clean_cache: false
-        theme: 'leuven'
-        user_config: './emacs/init.el'
+    org:
+      emacs: 'emacs'
+      emacsclient: 'emacsclient'
+      common: |
+        ,#+OPTIONS: toc:nil
+        ,#+BIND: org-html-postamble \"Last Updated %C.</br>Render by <a href='https://github.com/coldnew/hexo-renderer-org'>coldnew/hexo-renderer-org</a> with %c\"
+      cachedir: './hexo-org-cache/'
+      clean_cache: false
+      htmlize: true
+      line_number: false
+      theme: 'leuven'
+      user_config: './emacs/init.el'
   #+END_SRC
 
   And here's some doc:

@@ -21,6 +21,7 @@ hexo.config.org = assign({
   clean_cache: false,            // enable this to make 'hexo clean' also clean the cache
   theme: '',
   user_config: '',
+  htmlize: false,
   line_number: false,
   debug: false
 }, hexo.config.org);

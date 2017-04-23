@@ -35,12 +35,56 @@
 
 ;;;; user config
 
+(defvar org-hexo-use-htmlize nil
+  "Set t to use htmlize for syntax highlight.")
+
 (defvar org-hexo-use-line-number nil
   "Set t to add line-number to all src-block.")
 
 (defvar org-hexo-use-line-number-on-example-block nil
   "Set t to add line-number to all example-block.
 If you want to make example-block has line-number, you also need to setup `org-hexo-use-line-number' to t.")
+
+(defvar org-hexo-highlightjs-mapping-table
+  '( ;; major-mode . highlight.js
+    ("apache"          . "apache")
+    ("c++"             . "cpp")
+    ("clojure"         . "clojure")
+    ("clojurescript"   . "clojure")
+    ("coffee"          . "coffeescript")
+    ("conf"            . "ini")
+    ("cpp"             . "cpp")
+    ("csharp"          . "cs")
+    ("css"             . "css")
+    ("diff"            . "diff")
+    ("dockerfile"      . "dockerfile")
+    ("emacs-lisp"      . "lisp")
+    ("html"            . "xml")
+    ("http"            . "http")
+    ("java"            . "java")
+    ("js"              . "javascript")
+    ("js2"             . "javascript")
+    ("json"            . "json")
+    ("less"            . "less")
+    ("makefile"        . "makefile")
+    ("markdown"        . "markdown")
+    ("nginx"           . "nginx")
+    ("objc"            . "objectivec")
+    ("perl"            . "perl")
+    ("php"             . "php")
+    ("python"          . "python")
+    ("ruby"            . "ruby")
+    ("scss"            . "scss")
+    ("sh"              . "bash")
+    ("shell"           . "shell")
+    ("sql"             . "sql")
+    ("stylus"          . "stylus")
+    ("xml"             . "xml")
+    ("yaml"            . "yaml")
+    )
+  "Convert emacs's major-mode to highlight.js's lang.")
+
+;; (cdr (assoc "emac-lisp" org-hexo-highlightjs-mapping-table))
 
 
 ;;;; Backend
@@ -183,7 +227,11 @@ a plist used as a communication channel."
               ;; If user really want to enable this, they should setup `org-hexo-use-line-number-on-example-block' manually.
               (and (not lang)
                    (and org-hexo-use-line-number-on-example-block 0)))))
-    (org-hexo-do-format-code code lang refs retain-labels num-start)))
+    ;; detect if we need to return code for highlight.js or htmlize
+    (if org-hexo-use-htmlize
+        (org-hexo-do-format-code code lang refs retain-labels num-start)
+        ;; for highlight.js, first line stored line-number
+        (format "%d\n%s" (or num-start -1) (org-html-encode-plain-text code)))))
 
 (defun org-hexo-src-block (src-block _contents info)
   "Transcode a SRC-BLOCK element from Org to HEXO.
@@ -213,7 +261,13 @@ contextual information."
                                     (org-trim (org-export-data caption info))))))
                     ;; Contents.
                     (format "<pre class=\"src src-%s\"%s>%s</pre>"
-                            lang label code))))))
+                            (if org-hexo-use-htmlize
+                                lang
+                                ;; try to find suitable highlight.js mode from mapping table
+                                ;; if failed, return unknown
+                                (or (cdr (assoc lang org-hexo-highlightjs-mapping-table))
+                                    lang))
+                            label code))))))
 
 
 (defun org-hexo-example-block (example-block _contents info)
@@ -222,15 +276,15 @@ CONTENTS is nil.  INFO is a plist holding contextual
 information."
   (let ((attributes (org-export-read-attribute :attr_html example-block)))
     (if (plist-get attributes :textarea)
-  (org-html--textarea-block example-block)
-      (format "<pre class=\"example\"%s>\n%s</pre>"
-        (let* ((name (org-element-property :name example-block))
-         (a (org-html--make-attribute-string
-       (if (or (not name) (plist-member attributes :id))
-           attributes
-         (plist-put attributes :id name)))))
-    (if (org-string-nw-p a) (concat " " a) ""))
-        (org-hexo-format-code example-block info)))))
+        (org-html--textarea-block example-block)
+        (format "<pre class=\"example\"%s>\n%s</pre>"
+                (let* ((name (org-element-property :name example-block))
+                       (a (org-html--make-attribute-string
+                           (if (or (not name) (plist-member attributes :id))
+                               attributes
+                               (plist-put attributes :id name)))))
+                  (if (org-string-nw-p a) (concat " " a) ""))
+                (org-hexo-format-code example-block info)))))
 
 
 ;;; End-user functions

@@ -65,7 +65,6 @@
      org:
        emacs: 'emacs'
        emacsclient: 'emacsclient'
-       htmlize: true
    #+END_SRC
 
 ** For htmlize user

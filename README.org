@@ -21,8 +21,6 @@
    - [[#which-org-mode-version-do-you-use-][Which org-mode version do you use ?]]
    - [[#how-can-i-connect-to-emacs-daemon-][How can I connect to emacs daemon ?]]
    - [[#how-to-add-read-more-button-][How to add Read more button ?]]
-   - [[#how-to-use-htmlize-to-render-code-block][How to use htmlize to render code block]]
-   - [[#how-to-use-highlightjs-to-render-code-block][How to use highlight.js to render code block]]
    - [[#how-to-install-my-emacs-theme][How to install my emacs theme]]
    - [[#can-i-clean-cachedir-when-use-hexo-clean-][Can I clean cachedir when use hexo clean ?]]
    - [[#how-can-i-add-line-number-on-src-block-][How can I add line-number on src-block ?]]
@@ -68,7 +66,6 @@
        emacs: 'emacs'
        emacsclient: 'emacsclient'
        htmlize: true
-       line_number: false  # <-- set true to add line_number globally
    #+END_SRC
 
 ** For htmlize user
@@ -80,9 +77,7 @@
       emacs: 'emacs'
       emacsclient: 'emacsclient'
       htmlize: true       # <--- for htmlize user, this MUST set true
-      line_number: false  # <-- set true to add line_number globally
       theme: 'leuven'
-      user_config: './emacs/init.el'
   #+END_SRC
 
 ** Full options documentation
@@ -165,27 +160,6 @@
 
    Place =#+HTML: <!-- more -->= in where you would like to add a ~Read more~.
 
-** How to use htmlize to render code block
-
-   config in your ~_config.yml~
-
-   #+BEGIN_SRC yaml
-     org:
-       htmlize: true   # <--- Set this true to enable use emacs syntax highligt code block
-   #+END_SRC
-
-** How to use highlight.js to render code block
-   
-   config in your ~_config.yml~
-
-   #+BEGIN_SRC yaml
-     highlight:
-       enable: true
-  
-     org:
-       htmlize: false   # <--- Set this false to enable use highlight.js on code block
-   #+END_SRC
-
 ** How to install my emacs theme
 
    If the emacs theme you want to use is not installed by default, you can setup the ~_config.yml~
@@ -226,7 +200,7 @@
         # Make src-block has line-number (this won't make effect on example-block)
         line_number: true
    #+END_SRC
-   
+
    Or use org-mode's [[http://orgmode.org/manual/Literal-examples.html][standard method]] to add line-number manually:
 
    #+BEGIN_SRC org

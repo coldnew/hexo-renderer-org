@@ -231,7 +231,12 @@ a plist used as a communication channel."
     (if org-hexo-use-htmlize
         (org-hexo-do-format-code code lang refs retain-labels num-start)
         ;; for highlight.js, first line stored line-number
-        (format "%d\n%s" (or num-start -1) (org-html-encode-plain-text code)))))
+        (concat
+         ;; if it's example block, skip add line-number if `org-hexo-use-line-number-on-example-block' not set
+         (if (and (not lang) (not org-hexo-use-line-number-on-example-block))
+             ""
+             (format "%d\n" (or num-start -1)))
+         (format "%s" (org-html-encode-plain-text code))))))
 
 (defun org-hexo-src-block (src-block _contents info)
   "Transcode a SRC-BLOCK element from Org to HEXO.

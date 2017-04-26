@@ -175,8 +175,9 @@
    Then add following code to your =./emacs/init.el=.
 
    #+BEGIN_SRC emacs-lisp
-     ;; install moe-theme
+     ;; install moe-theme and use it
      (package-install 'moe-theme)
+     (require 'moe-theme)
    #+END_SRC
 
 ** Can I clean cachedir when use hexo clean ?

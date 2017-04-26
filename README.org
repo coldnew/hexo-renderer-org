@@ -29,23 +29,23 @@
 
   Before I start to use [[https://github.com/CodeFalling/hexo-renderer-org][hexo-renderer-org]], I already have another tool called [[https://github.com/coldnew/org-hexo][org-hexo]], which can use org-mode's publish method to generate html code then let [[https://hexo.io][hexo]] renderer it. However, since my posts grow large, the org-publish is more slow then I think. That's why I try the [[https://github.com/CodeFalling/hexo-renderer-org][hexo-renderer-org]].
 
-  The [[https://github.com/CodeFalling/hexo-renderer-org][hexo-renderer-org]] is really greate but it doesn't support use emacs's =htmlize= to render my code block, and that's why I create my fork.
+  The [[https://github.com/CodeFalling/hexo-renderer-org][hexo-renderer-org]] is really greate but it doesn't support use emacs's =htmlize= to render my code block, and that's the main reason I create my fork.
 
-  This fork supported *both* htmlize and highlight.js method for syntax highlight, you can choose which you like.
+  This fork support *both* [[https://highlightjs.org/][highlight.js]] and [[https://www.emacswiki.org/emacs/Htmlize][htmlize]] to work as syntax highlight backend, you can choose which you like.
 
-  Some features may PR back to [[https://github.com/CodeFalling/hexo-renderer-org][CodeFalling/hexo-render-org]] if the original author accept that feature, but I need time to write the patches.
+  Some features will be PR back to [[https://github.com/CodeFalling/hexo-renderer-org][CodeFalling/hexo-render-org]] one day, but some may not, since this fork is almost totally rewrited.
 
 * Difference with original one
 
   The main difference is:
 
   - This fork use =emacs daemon= to speedup render speed.
-  - This fork support use emacs's =htmlize= to syntax highlight your code block.
-  - This fork has better highlight.js support by [[https://github.com/coldnew/hexo-renderer-org/blob/coldnew/emacs/ox-hexo.el#L48][mapping-table]].
+  - This fork support use emacs's [[https://www.emacswiki.org/emacs/Htmlize][htmlize]] to syntax highlight your code block.
+  - This fork has better [[https://highlightjs.org/][highlight.js]] support by [[https://github.com/coldnew/hexo-renderer-org/blob/coldnew/emacs/ox-hexo.el#L48][mapping-table]].
 
 * Installation
 
-  Switch to your blog directory and run:
+  Switch to your hexo blog directory and run:
 
   #+BEGIN_SRC sh
     npm install https://github.com/coldnew/hexo-renderer-org#coldnew --save
@@ -104,7 +104,7 @@
     ,#+TITLE: Hello World
     ,#+DATE: <2017-03-05 Sun 08:52>
     ,#+LAYOUT: post
-    ,#+CATEGORIES: orgmode
+    ,#+CATEGORIES: org-mode
     ,#+TAGS: hexo, org-mode
 
     Welcome to [[https://github.com/coldnew/hexo-renderer-org][coldnew/hexo-renderer-org]]!
@@ -143,9 +143,9 @@
 
 ** Which org-mode version do you use ?
 
-   This renderer *ONLY* support =org-mode 9.x= syntax, be careful there's some conflict with org-mode 9.x and 8.x.
+   This renderer *ONLY* support =org-mode 9.x= syntax, be careful there's some [[http://orgmode.org/Changes.html][conflict]] with org-mode 9.x and 8.x.
 
-   For futher information, please take a look at: http://orgmode.org/Changes.html
+   If you really want to use org-mode 8.x, here's the [[https://coldnew.github.io/hexo-org-example/2017/04/26/tips-for-org-mode-8-user/][guide.]]
 
 ** How can I connect to emacs daemon ?
 

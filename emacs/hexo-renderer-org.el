@@ -64,6 +64,10 @@
 (defvar hexo-renderer-org--debug-file "./hexo-org-renderer.log"
   "YOU SHOULD NOT SETUP THIS VARIABLE.")
 
+(defvar hexo-renderer-org--use-htmlize nil
+  "YOU SHOULD NOT SETUP THIS VARIABLE.
+This variable is keeped incase org-hexo not loaded.")
+
 
 ;;;; Debugger
 
@@ -125,6 +129,12 @@
 ;; Install deps packages
 (package-install 'org-plus-contrib)     ; Installed by packages.el
 
+;; Only install htmlize when user use it
+(when hexo-renderer-org--use-htmlize
+  (progn
+    (package-install 'htmlize)        ; Installed by packages.el
+    (require 'htmlize)))
+
 
 ;;;; Initial org-mode and ox-hexo.el
 
@@ -152,35 +162,9 @@
     emacs-version
     org-version)))
 
-;; load ox-hexo.el
+;; load ox-hexo.el when `org-hexo-export-as-html' is called
 (add-to-list 'load-path hexo-renderer-org--load-path)
 (autoload 'org-hexo-export-as-html "ox-hexo")
-
-;; Load user-config
-(when (and (not (string-equal hexo-renderer-org-user-config ""))
-           (file-exists-p hexo-renderer-org-user-config))
-  (load-file hexo-renderer-org-user-config))
-
-;; Load theme if specify
-(unless (string-equal hexo-renderer-org-theme "")
-  (load-theme (intern hexo-renderer-org-theme) t))
-
-;; Use emacs's htmlize to syntax highlight source code
-;; https://lists.gnu.org/archive/html/emacs-orgmode/2014-03/msg01337.html
-(if (string-equal hexo-renderer-org-htmlize "true")
-    (progn
-      (package-install 'htmlize)        ; Installed by packages.el
-      (require 'htmlize))
-    ;; FIXME: how to disable htmlize for org-version < 9.x ?
-    ;; for org-mode >= 9.0.0
-    (when (version<= org-version "9.0.0")
-      (setq org-html-htmlize-output-type nil)))
-
-;; Allow use #+BIND: in org-mode
-(setq org-export-allow-bind-keywords t)
-
-;; Emacs is Ready!!!
-(message "Emacs is READY!!!!!")
 
 
 ;; The exporter function
@@ -228,6 +212,24 @@ ARGS:
       (write-region (point-min) (point-max) output-file)
       ;; bye-bye tmp buffer
       (kill-buffer))))
+
+
+;; User config and other stuffs
+
+;; Load user-config
+(when (and (not (string-equal hexo-renderer-org-user-config ""))
+           (file-exists-p hexo-renderer-org-user-config))
+  (load-file hexo-renderer-org-user-config))
+
+;; Load theme if specify
+(unless (string-equal hexo-renderer-org-theme "")
+  (load-theme (intern hexo-renderer-org-theme) t))
+
+;; Allow use #+BIND: in org-mode
+(setq org-export-allow-bind-keywords t)
+
+;; Emacs is Ready!!!
+(message "Emacs is READY!!!!!")
 
 (provide 'hexo-renderer-org)
 ;;; hexo-renderer-org.el ends here

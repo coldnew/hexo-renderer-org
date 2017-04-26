@@ -11,6 +11,9 @@
  - [[#difference-with-original-one][Difference with original one]]
  - [[#installation][Installation]]
  - [[#options][Options]]
+   - [[#for-highlightjs-user][For highlight.js user]]
+   - [[#for-htmlize-user][For htmlize user]]
+   - [[#full-options-documentation][Full options documentation]]
  - [[#create-post][Create Post]]
  - [[#front-matters][Front-matters]]
  - [[#tutorials][Tutorials]]
@@ -54,24 +57,37 @@
 
 * Options
 
-  You can configure this plugin in ~_config.yml~.
+  You can configure this plugin in ~_config.yml~ according to the backend you want to use.
+
+** For highlight.js user
+
+   If [[https://highlightjs.org/][highlight.js]] is enough for you, here's the minimal config:
+
+   #+BEGIN_SRC yaml
+     org:
+       emacs: 'emacs'
+       emacsclient: 'emacsclient'
+       htmlize: true
+       line_number: false  # <-- set true to add line_number globally
+   #+END_SRC
+
+** For htmlize user
+
+   If you want to use emacs's [[https://www.emacswiki.org/emacs/Htmlize][htmlize]] to syntax highlight your code block, you can use this config instead:
 
   #+BEGIN_SRC yaml
     org:
       emacs: 'emacs'
       emacsclient: 'emacsclient'
-      common: |
-        ,#+OPTIONS: toc:nil
-        ,#+BIND: org-html-postamble \"Last Updated %C.</br>Render by <a href='https://github.com/coldnew/hexo-renderer-org'>coldnew/hexo-renderer-org</a> with %c\"
-      cachedir: './hexo-org-cache/'
-      clean_cache: false
-      htmlize: true
-      line_number: false
+      htmlize: true       # <--- for htmlize user, this MUST set true
+      line_number: false  # <-- set true to add line_number globally
       theme: 'leuven'
       user_config: './emacs/init.el'
   #+END_SRC
 
-  And here's some doc:
+** Full options documentation
+
+   Some options may not uesed on above example, here's the doc:
 
   | config      | description                              | default value                                              |
   |-------------+------------------------------------------+------------------------------------------------------------|

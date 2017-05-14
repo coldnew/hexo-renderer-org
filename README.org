@@ -24,6 +24,7 @@
    - [[#how-to-install-my-emacs-theme][How to install my emacs theme]]
    - [[#can-i-clean-cachedir-when-use-hexo-clean-][Can I clean cachedir when use hexo clean ?]]
    - [[#how-can-i-add-line-number-on-src-block-][How can I add line-number on src-block ?]]
+   - [[#i-dont-want-to-use-emacs-daemon][I don't want to use emacs daemon]]
 
 * Why fork ?
 
@@ -95,6 +96,7 @@
   | htmlize     | use emacs's htmlize to syntax highlight  | false                                                      |
   | line_number | Enable line-number globally on src-block | false                                                      |
   | debug       | Show more debug message                  | false                                                      |
+  | daemonize   | Enable/Disable use emacs server          | true                                                       |
 
 * Create Post
 
@@ -207,4 +209,13 @@
      ,#+BEGIN_SRC js -n
         console.log("This is line 1")
      ,#+END_SRC
+   #+END_SRC
+** I don't want to use emacs daemon
+
+   If you still want to use [[https://github.com/CodeFalling/hexo-renderer-org][CodeFalling/hexo-renderer-org]] method, which start emacs process to render post instead of using emacs daemon, you can switch to emacs process by setting =_config.xml=
+
+   #+BEGIN_SRC yaml
+     org:
+       # disable use emacs server by set 'false'
+       daemonize: false
    #+END_SRC

@@ -57,6 +57,10 @@
 
 ;;;; Private variables
 
+;; for backward compability
+(defvar hexo-renderer-org-daemonize t
+  "For backward compiblity, set `nil' to disable fetch org-mode and other files.")
+
 (defvar hexo-renderer-org--load-path
   (file-name-directory (or load-file-name (buffer-file-name)))
   "This hexo-renderer-org.el file path.")
@@ -100,40 +104,43 @@ This variable is keeped incase org-hexo not loaded.")
 
 ;;;; Initial emacs packages
 
-;; user-emacs-directory is under the `hexo-renderer-org-cachedir'
-(setq user-emacs-directory (concat (file-name-as-directory hexo-renderer-org-cachedir) "emacs.d"))
+(when hexo-renderer-org-daemonize
 
-;; Initial package.el
-(require 'package)                      ; built-in since emacs24
+  ;; user-emacs-directory is under the `hexo-renderer-org-cachedir'
+  (setq user-emacs-directory (concat (file-name-as-directory hexo-renderer-org-cachedir) "emacs.d"))
 
-;; Extra package repos
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives
-             '("org" . "http://orgmode.org/elpa/") t)
+  ;; Initial package.el
+  (require 'package)                      ; built-in since emacs24
 
-;; For important compatibility libraries like cl-lib
-(when (< emacs-major-version 24)
-  (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
+  ;; Extra package repos
+  (add-to-list 'package-archives
+               '("melpa" . "https://melpa.org/packages/") t)
+  (add-to-list 'package-archives
+               '("org" . "http://orgmode.org/elpa/") t)
 
-;; This must come before configurations of installed packages.
-;; Don't delete this line. If you don't want it, just comment it out by adding a
-;; semicolon to the start of the line. You may delete these explanatory
-;; comments.
-(package-initialize)
+  ;; For important compatibility libraries like cl-lib
+  (when (< emacs-major-version 24)
+    (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
 
-;; Auto refresh packages info when no archive available.
-(when (not package-archive-contents)
-  (package-refresh-contents))
+  ;; This must come before configurations of installed packages.
+  ;; Don't delete this line. If you don't want it, just comment it out by adding a
+  ;; semicolon to the start of the line. You may delete these explanatory
+  ;; comments.
+  (package-initialize)
 
-;; Install deps packages
-(package-install 'org-plus-contrib)     ; Installed by packages.el
+  ;; Auto refresh packages info when no archive available.
+  (when (not package-archive-contents)
+    (package-refresh-contents))
 
-;; Only install htmlize when user use it
-(when hexo-renderer-org--use-htmlize
-  (progn
-    (package-install 'htmlize)        ; Installed by packages.el
-    (require 'htmlize)))
+  ;; Install deps packages
+  (package-install 'org-plus-contrib)     ; Installed by packages.el
+
+  ;; Only install htmlize when user use it
+  (when hexo-renderer-org--use-htmlize
+    (progn
+      (package-install 'htmlize)        ; Installed by packages.el
+      (require 'htmlize)))
+  )
 
 
 ;;;; Initial org-mode and ox-hexo.el
@@ -142,25 +149,25 @@ This variable is keeped incase org-hexo not loaded.")
 (require 'ox-html)
 
 ;; Make sure we really use org-mode 9.x
-(when (version< org-version "9.0.0")
-  (hexo-org-renderer-oops
-   (format
-    "
-\e[1m\e[31mERROR:\e[0m
+;; (when (version< org-version "9.0.0")
+;;   (hexo-org-renderer-oops
+;;    (format
+;;     "
+;; \e[1m\e[31mERROR:\e[0m
 
-  hexo-renderer-org ONLY work on org-mode 9.x.
+;;   hexo-renderer-org ONLY work on org-mode 9.x.
 
-  Please remove your %s and let hexo-renderer-org re-download org-mode package again.
+;;   Please remove your %s and let hexo-renderer-org re-download org-mode package again.
 
-  Package info:
+;;   Package info:
 
-    emacs     : %s
-    org-mode  : %s
+;;     emacs     : %s
+;;     org-mode  : %s
 
-"
-    hexo-renderer-org-cachedir
-    emacs-version
-    org-version)))
+;; "
+;;     hexo-renderer-org-cachedir
+;;     emacs-version
+;;     org-version)))
 
 ;; load ox-hexo.el when `org-hexo-export-as-html' is called
 (add-to-list 'load-path hexo-renderer-org--load-path)

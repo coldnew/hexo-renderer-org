@@ -23,6 +23,7 @@ hexo.config.org = assign({
   user_config: '',
   htmlize: false,
   line_number: false,
+  daemonize: true,              // set false to disable use emacs server
   debug: false
 }, hexo.config.org);
 

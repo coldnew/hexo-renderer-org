@@ -1,3 +1,7 @@
+[[https://img.shields.io/badge/Maintained%3F-NO%20LONGER-red.svg?style=flat]]
+
+THIS PROJECT IS NO LONGER MAINTAINED for I am not using org-mode for blog anymore. If someone have interest in maintaining, please contact me.
+
 [[https://travis-ci.org/CodeFalling/hexo-renderer-org][https://travis-ci.org/CodeFalling/hexo-renderer-org.svg]]
 [[https://www.npmjs.com/package/hexo-renderer-org][https://badge.fury.io/js/hexo-renderer-org.svg]]
 

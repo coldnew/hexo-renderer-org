@@ -219,3 +219,29 @@
        # disable use emacs server by set 'false'
        daemonize: false
    #+END_SRC
+** Can I drag and drop image to org-file ?
+
+Yes, first you need to install [org-download](https://github.com/abo-abo/org-download) to your emacs.
+
+Then add following to =.dir-localse.el= at the top of your hexo project:
+
+#+BEGIN_SRC emacs-lisp
+  ((nil .
+        ((eval .
+               (progn
+
+                 ;; make drag-and-drop image save in the same name folder as org file
+                 ;; ex: `aa-bb-cc.org' then save image test.png to `aa-bb-cc/test.png'
+                 (defun my-org-download-method (link)
+                   (let ((filename
+                          (file-name-nondirectory
+                           (car (url-path-and-query
+                                 (url-generic-parse-url link)))))
+                         (dirname (file-name-sans-extension (buffer-name)) ))
+                     (make-directory dirname)
+                     (expand-file-name filename dirname)))
+
+                 (setq org-download-method 'my-org-download-method)
+
+                 )))))
+#+END_SRC

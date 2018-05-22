@@ -241,7 +241,8 @@ Then add following to =.dir-locals.el= at the top of your hexo project:
                      (make-directory dirname)
                      (expand-file-name filename dirname)))
 
-                 (setq org-download-method 'my-org-download-method)
+                 ;; only modify `org-download-method' in this project
+                 (setq-local org-download-method 'my-org-download-method)
 
                  )))))
 #+END_SRC

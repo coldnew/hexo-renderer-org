@@ -219,11 +219,11 @@
        # disable use emacs server by set 'false'
        daemonize: false
    #+END_SRC
-** Can I drag and drop image to org-file ?
+** Can I drag and drop image to org files ?
 
 Yes, first you need to install [[https://github.com/abo-abo/org-download][org-download]] to your emacs.
 
-Then add following to =.dir-localse.el= at the top of your hexo project:
+Then add following to =.dir-locals.el= at the top of your hexo project:
 
 #+BEGIN_SRC emacs-lisp
   ((nil .

@@ -239,7 +239,10 @@ Then add following to =.dir-locals.el= at the top of your hexo project:
                            (car (url-path-and-query
                                  (url-generic-parse-url link)))))
                          (dirname (file-name-sans-extension (buffer-name)) ))
-                     (make-directory dirname)
+                     ;; if directory not exist, create it
+                     (unless (file-exists-p dirname)
+                       (make-directory dirname))
+                     ;; return the path to save the download files
                      (expand-file-name filename dirname)))
 
                  ;; only modify `org-download-method' in this project

@@ -19,7 +19,6 @@
 - [[#tutorials][Tutorials]]
 - [[#q--a][Q & A]]
   - [[#which-org-mode-version-do-you-use-][Which org-mode version do you use ?]]
-  - [[#how-can-i-connect-to-emacs-daemon-][How can I connect to emacs daemon ?]]
   - [[#how-to-add-read-more-button-][How to add Read more button ?]]
   - [[#how-to-install-my-emacs-theme][How to install my emacs theme]]
   - [[#can-i-clean-cachedir-when-use-hexo-clean-][Can I clean cachedir when use hexo clean ?]]
@@ -149,14 +148,6 @@
    This renderer *ONLY* support =org-mode 9.x= syntax, be careful there's some [[http://orgmode.org/Changes.html][conflict]] with org-mode 9.x and 8.x.
 
    If you really want to use org-mode 8.x, here's the [[https://coldnew.github.io/hexo-org-example/2017/04/26/tips-for-org-mode-8-user/][guide.]]
-
-** How can I connect to emacs daemon ?
-
-   [[https://github.com/coldnew/hexo-renderer-org][hexo-renderer-org]] create a emacs daemon named =hexo-renderer-org=, you can connect the daemone via following command for debug purpose:
-
-   #+BEGIN_SRC sh
-     emacsclient -nw -s hexo-renderer-org
-   #+END_SRC
 
 ** How to add Read more button ?
 

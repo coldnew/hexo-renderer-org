@@ -1,4 +1,4 @@
-#+TITLE: hexo-renderer-org (fork)
+#+TITLE: hexo-renderer-org
 
 [[https://circleci.com/gh/coldnew/hexo-renderer-org][https://circleci.com/gh/coldnew/hexo-renderer-org.svg?style=svg]]
 
@@ -7,8 +7,6 @@
 [[https://coldnew.github.io/hexo-org-example/2017/03/05/getting-started-with-hexo-and-org-mode/][Getting Started Guide]]
 
 * Table of Contents                                               :TOC_2_gh:
-- [[#why-fork-][Why fork ?]]
-- [[#difference-with-original-one][Difference with original one]]
 - [[#installation][Installation]]
 - [[#options][Options]]
   - [[#for-highlightjs-user][For highlight.js user]]
@@ -26,30 +24,12 @@
   - [[#i-dont-want-to-use-emacs-daemon][I don't want to use emacs daemon]]
   - [[#can-i-drag-and-drop-image-to-org-files-][Can I drag and drop image to org files ?]]
 
-* Why fork ?
-
-  Before I start to use [[https://github.com/CodeFalling/hexo-renderer-org][hexo-renderer-org]], I already have another tool called [[https://github.com/coldnew/org-hexo][org-hexo]], which can use org-mode's publish method to generate html code then let [[https://hexo.io][hexo]] renderer it. However, since my posts grow large, the org-publish is more slow then I think. That's why I try the [[https://github.com/CodeFalling/hexo-renderer-org][hexo-renderer-org]].
-
-  The [[https://github.com/CodeFalling/hexo-renderer-org][hexo-renderer-org]] is really greate but it doesn't support use emacs's =htmlize= to render my code block, and that's the main reason I create my fork.
-
-  This fork support *both* [[https://highlightjs.org/][highlight.js]] and [[https://www.emacswiki.org/emacs/Htmlize][htmlize]] to work as syntax highlight backend, you can choose which you like.
-
-  Some features will be PR back to [[https://github.com/CodeFalling/hexo-renderer-org][CodeFalling/hexo-render-org]] one day, but some may not, since this fork is almost totally rewrited.
-
-* Difference with original one
-
-  The main difference is:
-
-  - This fork use =emacs daemon= to speedup render speed.
-  - This fork support use emacs's [[https://www.emacswiki.org/emacs/Htmlize][htmlize]] to syntax highlight your code block.
-  - This fork has better [[https://highlightjs.org/][highlight.js]] support by [[https://github.com/coldnew/hexo-renderer-org/blob/coldnew/emacs/ox-hexo.el#L48][mapping-table]].
-
 * Installation
 
   Switch to your hexo blog directory and run:
 
   #+BEGIN_SRC sh
-    npm install https://github.com/coldnew/hexo-renderer-org#coldnew --save
+    npm install https://github.com/coldnew/hexo-renderer-org#master --save
   #+END_SRC
 
   Then restart your hexo server.

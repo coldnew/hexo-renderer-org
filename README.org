@@ -1,8 +1,13 @@
-#+TITLE: hexo-renderer-org
+
+[[https://github.com/coldnew/hexo-renderer-org/raw/master/icon.png]]
+
+* hexo-renderer-org
+
+[[https://hexo.io][Hexo]] renderer plugin for emacs [[https://orgmode.org/][org-mode]].
+
 
 [[https://circleci.com/gh/coldnew/hexo-renderer-org][https://circleci.com/gh/coldnew/hexo-renderer-org.svg?style=svg]]
 
-[[https://hexo.io][Hexo]] renderer plugin for emacs [[https://orgmode.org/][org-mode]].
 
 [[https://coldnew.github.io/hexo-org-example/2017/03/05/getting-started-with-hexo-and-org-mode/][Getting Started Guide]]
 

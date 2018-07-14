@@ -7,30 +7,22 @@ var emacs = require('./lib/emacs');
 var fs = require('fs');
 var path = require('path');
 
-// for detect if we use `hexo s'
-var server_mode = false;
-var emacs_server_start = false;
-
 // Init option
 hexo.config.org = assign({
   emacs: 'emacs',
   emacsclient: 'emacsclient',   // user should not setup this if renderer work correctly
   common: '#+OPTIONS: toc:nil num:nil\n#+BIND: org-html-postamble nil',
-  export_cfg: "(progn (package-initialize)(require 'org) (require 'org-clock) (require 'ox))", // FIXME: why not remove this ?
   cachedir: './hexo-org-cache/',
   clean_cache: false,            // enable this to make 'hexo clean' also clean the cache
   theme: '',
   user_config: '',
   htmlize: false,
   line_number: false,
-  daemonize: 0,              // set 1 to use existing server, set 2 to create new server
+  daemonize: true,              // set true to use existing server
   debug: false
 }, hexo.config.org);
 
 hexo.on('ready', function() {
-  // detect if current is execute for server, we have different method to handle emacs server exit.
-  // some people may use 'hexo generate --watch' or 'hexo generate -w', which we also need to keep emacs server exist
-  server_mode = process.argv.indexOf('server') > 0 || process.argv.indexOf('s') > 0 || process.argv.indexOf('--watch') > 0 || process.argv.indexOf('-w') > 0;
 
   // detect if we are going to clear all cache file (the 'cachedir/emacs.d' will not remove )
   if(process.argv.indexOf('clean') > 0 ) {
@@ -46,41 +38,19 @@ hexo.on('ready', function() {
     }
   }
 
-  if(hexo.config.org.daemonize === 1) {
-    emacs.server
-      .check(hexo)
-      .then(emacs.server.load_config)
-      .catch(err => {
-        console.error(err);
-        process.exit(1);
-      });
-  }
-
-  // start emacs server only on:
-  //   hexo s
-  //   hexo server
-  //   hexo render
-  //   hexo generator
-  //   hexo g
-  if (hexo.config.org.daemonize === 2 && server_mode || process.argv.indexOf('render') > 0 || process.argv.indexOf('generate') > 0 || process.argv.indexOf('g') > 0) {
-    // start emacs server
-    emacs.server.start(hexo);
-    emacs_server_start = true;
-  }
-
+  emacs.server
+    .check(hexo)
+    .then(emacs.server.load_config)
+    .catch(err => {
+      console.error(err);
+      process.exit(1);
+    });
 });
 
 // When time to exit hexo, kill emacs process
-hexo.on('exit', function(err) {
-  // If use `hexo server`, the hexo will first enter `.on(exit)` event then start the server.
-  // that's why we skip emacs.server.stop() when first etner here with server mode.
-  if (server_mode) {
-    server_mode = false;
-    return;
-  }
-  if (hexo.config.org.daemonize === 2 && emacs_server_start)
-    emacs.server.stop(hexo);
+hexo.on('exit', err => {
+  if(err) console.error(err);
 });
 
-hexo.extend.renderer.register('org', 'html', renderer.bind(hexo), false);
 hexo.extend.filter.register('before_post_render', read_info);
+hexo.extend.renderer.register('org', 'html', renderer.bind(hexo), false);

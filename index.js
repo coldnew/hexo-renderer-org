@@ -23,7 +23,7 @@ hexo.config.org = assign({
   user_config: '',
   htmlize: false,
   line_number: false,
-  daemonize: true,              // set false to disable use emacs server
+  daemonize: 0,              // set 1 to use existing server, set 2 to create new server
   debug: false
 }, hexo.config.org);
 
@@ -46,13 +46,21 @@ hexo.on('ready', function() {
     }
   }
 
+  emacs.server
+    .check(hexo)
+    .then(emacs.server.load_config)
+    .catch(err => {
+      console.error(err);
+      process.exit(1);
+    });
+
   // start emacs server only on:
   //   hexo s
   //   hexo server
   //   hexo render
   //   hexo generator
   //   hexo g
-  if (server_mode || process.argv.indexOf('render') > 0 || process.argv.indexOf('generate') > 0 || process.argv.indexOf('g') > 0) {
+  if (hexo.config.org.daemonize === 1 && server_mode || process.argv.indexOf('render') > 0 || process.argv.indexOf('generate') > 0 || process.argv.indexOf('g') > 0) {
     // start emacs server
     emacs.server.start(hexo);
     emacs_server_start = true;
@@ -64,12 +72,12 @@ hexo.on('ready', function() {
 hexo.on('exit', function(err) {
   // If use `hexo server`, the hexo will first enter `.on(exit)` event then start the server.
   // that's why we skip emacs.server.stop() when first etner here with server mode.
-  if (server_mode) {
-    server_mode = false;
-    return;
-  }
-  if (emacs_server_start)
-    emacs.server.stop(hexo);
+  // if (server_mode) {
+  //   server_mode = false;
+  //   return;
+  // }
+  // if (emacs_server_start)
+  //   emacs.server.stop(hexo);
 });
 
 hexo.extend.renderer.register('org', 'html', renderer.bind(hexo), false);

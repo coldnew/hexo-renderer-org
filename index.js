@@ -19,7 +19,8 @@ hexo.config.org = assign({
   htmlize: false,
   line_number: false,
   daemonize: true,              // set true to use existing server
-  debug: false
+  debug: false,
+  server_file: "~/.emacs.d/server/server"
 }, hexo.config.org);
 
 hexo.on('ready', function() {

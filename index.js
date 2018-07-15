@@ -1,11 +1,11 @@
 'use strict';
-var renderer = require('./lib/renderer');
-var assign = require('object-assign');
-var read_info = require('./lib/read-info');
-var emacs = require('./lib/emacs');
+let renderer = require('./lib/renderer');
+let assign = require('object-assign');
+let read_info = require('./lib/read-info');
+let emacs = require('./lib/emacs');
 
-var fs = require('fs');
-var path = require('path');
+let fs = require('fs');
+let path = require('path');
 
 // Init option
 hexo.config.org = assign({
@@ -26,12 +26,12 @@ hexo.on('ready', function() {
 
   // detect if we are going to clear all cache file (the 'cachedir/emacs.d' will not remove )
   if(process.argv.indexOf('clean') > 0 ) {
-    var dir = hexo.config.org.cachedir;
+    let dir = hexo.config.org.cachedir;
     if (fs.existsSync(dir) && hexo.config.org.clean_cache) {
-      var files = fs.readdirSync(dir);
+      let files = fs.readdirSync(dir);
       files.forEach(function (filename) {
-        var fullname = path.join(dir, filename);
-        var stats = fs.statSync(fullname);
+        let fullname = path.join(dir, filename);
+        let stats = fs.statSync(fullname);
         if (!stats.isDirectory())
           fs.unlink(fullname);
       });

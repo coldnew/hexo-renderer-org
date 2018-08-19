@@ -3,12 +3,9 @@
 
 [[https://hexo.io][Hexo]] renderer plugin for emacs [[https://orgmode.org/][org-mode]].
 
-[[https://circleci.com/gh/coldnew/hexo-renderer-org][https://circleci.com/gh/coldnew/hexo-renderer-org.svg?style=svg]]
-
-[[https://coldnew.github.io/hexo-org-example/2017/03/05/getting-started-with-hexo-and-org-mode/][Getting Started Guide]]
-
-* Table of Contents                                               :TOC_2_gh:
+* Table of Contents                                                :TOC_2_gh:
 - [[#installation][Installation]]
+- [[#modify-by-mephistommm][Modify By MephistoMMM]]
 - [[#options][Options]]
   - [[#for-highlightjs-user][For highlight.js user]]
   - [[#for-htmlize-user][For htmlize user]]
@@ -30,10 +27,19 @@
   Switch to your hexo blog directory and run:
 
   #+BEGIN_SRC sh
-    npm install https://github.com/coldnew/hexo-renderer-org#master --save
+    npm install https://github.com/mephis/hexo-renderer-org#master --save
   #+END_SRC
 
   Then restart your hexo server.
+
+* Modify By MephistoMMM
+
+Now, hexo-renderer-org won't start a new emacs server process in daemonize mode. It will use the activing one by connecting the exist emacs server socket file. You can use this codes to config the adress of emacs server socket file.
+
+#+BEGIN_SRC yaml
+     org:
+       server_file: "~/.emacs.d/server/server"  # <----- this is default value
+#+END_SRC
 
 * Options
 
@@ -73,11 +79,11 @@
   | cachedir    | where cache file located                 | ./hexo-org-cache/                                          |
   | clean_cache | set true to clean cache by 'hexo clean'  | false                                                      |
   | theme       | emacs's theme you want to use            |                                                            |
-  | user_config | extra emacs config you want to load      |                                                            |
   | htmlize     | use emacs's htmlize to syntax highlight  | false                                                      |
   | line_number | Enable line-number globally on src-block | false                                                      |
   | debug       | Show more debug message                  | false                                                      |
   | daemonize   | Enable/Disable use emacs server          | true                                                       |
+  | server_file | socket file of emacs server              | ~/.emacs.d/server/server                                   |
 
 * Create Post
 

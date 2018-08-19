@@ -36,207 +36,211 @@
 ;; Disable "VC" (emacs internal version control stuff)
 (setq vc-handled-backends nil)
 
+(unless (boundp 'hexo-renderer-org--loaded)
 
-;;;; Public variables
+  ;;;; Public variables
 
-(defvar hexo-renderer-org-cachedir "./hexo-org-cache"
-  "Cache directory to save generated result and Emacs packages to increase startup speed.")
+  (defvar hexo-renderer-org-cachedir "./hexo-org-cache"
+    "Cache directory to save generated result and Emacs packages to increase startup speed.")
 
-(defvar hexo-renderer-org-user-config ""
-  "User's personal init.el to install extra packages or customize their own `org-mode' exporter.")
+  (defvar hexo-renderer-org-user-config ""
+    "User's personal init.el to install extra packages or customize their own `org-mode' exporter.")
 
-(defvar hexo-renderer-org-theme ""
-  "User's theme to use, it's recommand to use Emacs's builtin theme here.")
+  (defvar hexo-renderer-org-theme ""
+    "User's theme to use, it's recommand to use Emacs's builtin theme here.")
 
-(defvar hexo-renderer-org-common-block "#+OPTIONS: html-postamble:nil num:nil toc:nil ^:nil"
-  "Common `org-mode' settings in string, like #+OPTIONS: html-postamble:nil num:nil toc:nil ^:nil .")
+  (defvar hexo-renderer-org-common-block "#+OPTIONS: html-postamble:nil num:nil toc:nil ^:nil"
+    "Common `org-mode' settings in string, like #+OPTIONS: html-postamble:nil num:nil toc:nil ^:nil .")
 
-(defvar hexo-renderer-org-htmlize "false"
-  "Enable use Emacs's htmlize package to renderer code block or not.")
-
-
-;;;; Private variables
-
-;; for backward compability
-(defvar hexo-renderer-org-daemonize t
-  "For backward compiblity, set `nil' to disable fetch org-mode and other files.")
-
-(defvar hexo-renderer-org--load-path
-  (file-name-directory (or load-file-name (buffer-file-name)))
-  "This hexo-renderer-org.el file path.")
-
-(defvar hexo-renderer-org--debug-file "./hexo-org-renderer.log"
-  "YOU SHOULD NOT SETUP THIS VARIABLE.")
-
-(defvar hexo-renderer-org--use-htmlize nil
-  "YOU SHOULD NOT SETUP THIS VARIABLE.
-This variable is keeped incase org-hexo not loaded.")
+  (defvar hexo-renderer-org-htmlize "false"
+    "Enable use Emacs's htmlize package to renderer code block or not.")
 
 
-;;;; Debugger
+  ;;;; Private variables
 
-(defun hexo-org-renderer-oops (msg)
-  "OOPS: something error, let's show the MSG and kill EMACS :(."
-  (require 'json)                       ; built-in
-  (let ((oops '(:success :json-false)))
-    (plist-put oops :message msg)
-    ;; Convert to JSON format and write to `*deebug-file*'
-    (with-temp-buffer
-      (insert (json-encode oops))
-      (write-region (point-min) (point-max) hexo-renderer-org--debug-file))
-    ;; bye-bye emacs
-    (kill-emacs)))
+  ;; for backward compability
+  (defvar hexo-renderer-org-daemonize t
+    "For backward compiblity, set `nil' to disable fetch org-mode and other files.")
 
-;; The emacs daemon SHOULD die when error occurs.
-(run-with-idle-timer
- 1 t (lambda ()
-       ;; When *Backtrace* exist, which means error occured, set `*statue*' to false and write value to `debug-file' then exit.
-       (when (get-buffer "*Backtrace*")
-         (with-current-buffer "*Backtrace*"
-           (hexo-org-renderer-oops (buffer-string))))
-       ;; Sometimes, there's another error "End of file during parsing:", this error may not trow Error to emacs but just display on *Messages* buffer.
-       (with-current-buffer "*Messages*"
-         (goto-char (point-min))
-         (while (re-search-forward "End of file during parsing" nil t)
-           (hexo-org-renderer-oops (buffer-string))))
-       ))
+  (defvar hexo-renderer-org--load-path
+    (file-name-directory (or load-file-name (buffer-file-name)))
+    "This hexo-renderer-org.el file path.")
+
+  (defvar hexo-renderer-org--debug-file "./hexo-org-renderer.log"
+    "YOU SHOULD NOT SETUP THIS VARIABLE.")
+
+  (defvar hexo-renderer-org--use-htmlize nil
+    "YOU SHOULD NOT SETUP THIS VARIABLE.
+  This variable is keeped incase org-hexo not loaded.")
 
 
-;;;; Initial emacs packages
+  ;;;; Debugger
 
-(when hexo-renderer-org-daemonize
+  (defun hexo-org-renderer-oops (msg)
+    "OOPS: something error, let's show the MSG and kill EMACS :(."
+    (require 'json)                       ; built-in
+    (let ((oops '(:success :json-false)))
+      (plist-put oops :message msg)
+      ;; Convert to JSON format and write to `*deebug-file*'
+      (with-temp-buffer
+        (insert (json-encode oops))
+        (write-region (point-min) (point-max) hexo-renderer-org--debug-file))
+      ;; bye-bye emacs
+      (kill-emacs)))
 
-  ;; user-emacs-directory is under the `hexo-renderer-org-cachedir'
-  (setq user-emacs-directory (concat (file-name-as-directory hexo-renderer-org-cachedir) "emacs.d"))
-
-  ;; Initial package.el
-  (require 'package)                      ; built-in since emacs24
-
-  ;; Extra package repos
-  (add-to-list 'package-archives
-               '("melpa" . "https://melpa.org/packages/") t)
-  (add-to-list 'package-archives
-               '("org" . "http://orgmode.org/elpa/") t)
-
-  ;; For important compatibility libraries like cl-lib
-  (when (< emacs-major-version 24)
-    (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
-
-  ;; This must come before configurations of installed packages.
-  ;; Don't delete this line. If you don't want it, just comment it out by adding a
-  ;; semicolon to the start of the line. You may delete these explanatory
-  ;; comments.
-  (package-initialize)
-
-  ;; Auto refresh packages info when no archive available.
-  (when (not package-archive-contents)
-    (package-refresh-contents))
-
-  ;; Install deps packages
-  (package-install 'org-plus-contrib)     ; Installed by packages.el
-
-  ;; Only install htmlize when user use it
-  (when hexo-renderer-org--use-htmlize
-    (progn
-      (package-install 'htmlize)        ; Installed by packages.el
-      (require 'htmlize)))
-  )
+  ;; ;; The emacs daemon SHOULD die when error occurs.
+  ;; (run-with-idle-timer
+  ;; 1 t (lambda ()
+  ;;       ;; When *Backtrace* exist, which means error occured, set `*statue*' to false and write value to `debug-file' then exit.
+  ;;       (when (get-buffer "*Backtrace*")
+  ;;         (with-current-buffer "*Backtrace*"
+  ;;           (hexo-org-renderer-oops (buffer-string))))
+  ;;       ;; Sometimes, there's another error "End of file during parsing:", this error may not trow Error to emacs but just display on *Messages* buffer.
+  ;;       (with-current-buffer "*Messages*"
+  ;;         (goto-char (point-min))
+  ;;         (while (re-search-forward "End of file during parsing" nil t)
+  ;;           (hexo-org-renderer-oops (buffer-string))))
+  ;;       ))
 
 
-;;;; Initial org-mode and ox-hexo.el
+  ;;;; Initial emacs packages
 
-(require 'org)
-(require 'ox-html)
+  (when hexo-renderer-org-daemonize
 
-;; Make sure we really use org-mode 9.x
-;; (when (version< org-version "9.0.0")
-;;   (hexo-org-renderer-oops
-;;    (format
-;;     "
-;; \e[1m\e[31mERROR:\e[0m
+    ;; user-emacs-directory is under the `hexo-renderer-org-cachedir'
+    (setq user-emacs-directory (concat (file-name-as-directory hexo-renderer-org-cachedir) "emacs.d"))
 
-;;   hexo-renderer-org ONLY work on org-mode 9.x.
+    ;; Initial package.el
+    (require 'package)                      ; built-in since emacs24
 
-;;   Please remove your %s and let hexo-renderer-org re-download org-mode package again.
+    ;; Extra package repos
+    (add-to-list 'package-archives
+                '("melpa" . "https://melpa.org/packages/") t)
+    (add-to-list 'package-archives
+                '("org" . "http://orgmode.org/elpa/") t)
 
-;;   Package info:
+    ;; For important compatibility libraries like cl-lib
+    (when (< emacs-major-version 24)
+      (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
 
-;;     emacs     : %s
-;;     org-mode  : %s
+    ;; This must come before configurations of installed packages.
+    ;; Don't delete this line. If you don't want it, just comment it out by adding a
+    ;; semicolon to the start of the line. You may delete these explanatory
+    ;; comments.
+    (package-initialize)
 
-;; "
-;;     hexo-renderer-org-cachedir
-;;     emacs-version
-;;     org-version)))
+    ;; Auto refresh packages info when no archive available.
+    (when (not package-archive-contents)
+      (package-refresh-contents))
 
-;; load ox-hexo.el when `org-hexo-export-as-html' is called
-(add-to-list 'load-path hexo-renderer-org--load-path)
-(autoload 'org-hexo-export-as-html "ox-hexo")
+    ;; Install deps packages
+    (package-install 'org-plus-contrib)     ; Installed by packages.el
 
-
-;; The exporter function
-
-(defun hexo-renderer-org-exporter ()
-  "The exporter function.
-When execute this function, we must in the `org-mode' file.
-This function is intend to let user overwrite in their user-config."
-  (org-hexo-export-as-html))
-
-(defun hexo-renderer-org-insert-options (s)
-  "Insert common option and settings S to current `org-mode' document.
-The string S will be prepent at beginning of file.
-
-Here's how you can use this function:
-
-  (hexo-renderer-org-insert-options \"#+OPTIONS: num:t\")
-
-"
-  (save-excursion
-    (goto-char (point-min))
-    (newline-and-indent)
-    (insert s)
-    (newline-and-indent)))
-
-(defun hexo-renderer-org (args)
-  "ARGS is a plist which contain following properities:
-
-ARGS:
- (
- :file         \"File path to render\"
- :output-file  \"Output file which redner by org-hexo\"
- )"
-  (let ((file         (or (plist-get args :file)             ""))
-        (output-file  (or (plist-get args :output-file)      "")))
-    ;; Export file content by ox-hexo.el
-    (with-temp-buffer
-      ;; Insert input-file contents
-      (insert-file-contents file)
-      ;; Insert common options
-      (hexo-renderer-org-insert-options hexo-renderer-org-common-block)
-      ;; Export the org-mode file to HTML (default)
-      (hexo-renderer-org-exporter)
-      ;; Write contents to output-file
-      (write-region (point-min) (point-max) output-file)
-      ;; bye-bye tmp buffer
-      (kill-buffer))))
+    ;; Only install htmlize when user use it
+    (when hexo-renderer-org--use-htmlize
+      (progn
+        (package-install 'htmlize)        ; Installed by packages.el
+        (require 'htmlize)))
+    )
 
 
-;; User config and other stuffs
+  ;;;; Initial org-mode and ox-hexo.el
 
-;; Load user-config
-(when (and (not (string-equal hexo-renderer-org-user-config ""))
-           (file-exists-p hexo-renderer-org-user-config))
-  (load-file hexo-renderer-org-user-config))
+  (require 'org)
+  (require 'ox-html)
 
-;; Load theme if specify
-(unless (string-equal hexo-renderer-org-theme "")
-  (load-theme (intern hexo-renderer-org-theme) t))
+  ;; Make sure we really use org-mode 9.x
+  ;; (when (version< org-version "9.0.0")
+  ;;   (hexo-org-renderer-oops
+  ;;    (format
+  ;;     "
+  ;; \e[1m\e[31mERROR:\e[0m
 
-;; Allow use #+BIND: in org-mode
-(setq org-export-allow-bind-keywords t)
+  ;;   hexo-renderer-org ONLY work on org-mode 9.x.
 
-;; Emacs is Ready!!!
-(message "Emacs is READY!!!!!")
+  ;;   Please remove your %s and let hexo-renderer-org re-download org-mode package again.
 
-(provide 'hexo-renderer-org)
+  ;;   Package info:
+
+  ;;     emacs     : %s
+  ;;     org-mode  : %s
+
+  ;; "
+  ;;     hexo-renderer-org-cachedir
+  ;;     emacs-version
+  ;;     org-version)))
+
+  ;; load ox-hexo.el when `org-hexo-export-as-html' is called
+  (add-to-list 'load-path hexo-renderer-org--load-path)
+  (autoload 'org-hexo-export-as-html "ox-hexo")
+
+
+  ;; The exporter function
+
+  (defun hexo-renderer-org-exporter ()
+    "The exporter function.
+  When execute this function, we must in the `org-mode' file.
+  This function is intend to let user overwrite in their user-config."
+    (org-hexo-export-as-html))
+
+  (defun hexo-renderer-org-insert-options (s)
+    "Insert common option and settings S to current `org-mode' document.
+  The string S will be prepent at beginning of file.
+
+  Here's how you can use this function:
+
+    (hexo-renderer-org-insert-options \"#+OPTIONS: num:t\")
+
+  "
+    (save-excursion
+      (goto-char (point-min))
+      (newline-and-indent)
+      (insert s)
+      (newline-and-indent)))
+
+  (defun hexo-renderer-org (args)
+    "ARGS is a plist which contain following properities:
+
+  ARGS:
+  (
+  :file         \"File path to render\"
+  :output-file  \"Output file which redner by org-hexo\"
+  )"
+    (let ((file         (or (plist-get args :file)             ""))
+          (output-file  (or (plist-get args :output-file)      "")))
+      ;; Export file content by ox-hexo.el
+      (with-temp-buffer
+        ;; Insert input-file contents
+        (insert-file-contents file)
+        ;; Insert common options
+        (hexo-renderer-org-insert-options hexo-renderer-org-common-block)
+        ;; Export the org-mode file to HTML (default)
+        (hexo-renderer-org-exporter)
+        ;; Write contents to output-file
+        (write-region (point-min) (point-max) output-file)
+        ;; bye-bye tmp buffer
+        (kill-buffer))))
+
+
+  ;; User config and other stuffs
+
+  ;; Load user-config
+  (when (and (not (string-equal hexo-renderer-org-user-config ""))
+            (file-exists-p hexo-renderer-org-user-config))
+    (load-file hexo-renderer-org-user-config))
+
+  ;; Load theme if specify
+  (unless (string-equal hexo-renderer-org-theme "")
+    (load-theme (intern hexo-renderer-org-theme) t))
+
+  ;; Allow use #+BIND: in org-mode
+  (setq org-export-allow-bind-keywords t)
+
+  ;; Emacs is Ready!!!
+  (message "Emacs Hexo Renderer Org is READY!!!!!")
+  (setq hexo-renderer-org--loaded t)
+
+  (provide 'hexo-renderer-org))
+
+
 ;;; hexo-renderer-org.el ends here

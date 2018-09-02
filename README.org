@@ -27,7 +27,7 @@
   Switch to your hexo blog directory and run:
 
   #+BEGIN_SRC sh
-    npm install https://github.com/mephis/hexo-renderer-org#master --save
+    npm install https://github.com/MephistoMMM/hexo-renderer-org#mephis --save
   #+END_SRC
 
   Then restart your hexo server.

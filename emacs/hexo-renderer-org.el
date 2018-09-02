@@ -36,7 +36,10 @@
 ;; Disable "VC" (emacs internal version control stuff)
 (setq vc-handled-backends nil)
 
-(unless (boundp 'hexo-renderer-org--loaded)
+(unless (boundp 'hexo-renderer-org-debug)
+  (defvar hexo-renderer-org-debug nil))
+
+(unless (and (boundp 'hexo-renderer-org--loaded) (not hexo-renderer-org-debug))
 
   ;;;; Public variables
 
@@ -87,6 +90,13 @@
         (write-region (point-min) (point-max) hexo-renderer-org--debug-file))
       ;; bye-bye emacs
       (kill-emacs)))
+
+  (defun hexo-org-renderer-debug-toggle()
+    "Toggle debug to relaod hexo-renderer-org.el files."
+    (interactive)
+    (if hexo-renderer-org-debug
+        (setq hexo-renderer-org-debug nil)
+      (setq hexo-renderer-org-debug t)))
 
   ;; ;; The emacs daemon SHOULD die when error occurs.
   ;; (run-with-idle-timer

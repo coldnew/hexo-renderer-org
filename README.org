@@ -34,7 +34,7 @@
 
 * Modify By MephistoMMM
 
-Now, hexo-renderer-org won't start a new emacs server process in daemonize mode. It will use the activing one by connecting the exist emacs server socket file. You can use this codes to config the adress of emacs server socket file.
+Now, hexo-renderer-org won't start a new emacs server process in daemonize mode. It will use the activing one by connecting the exist emacs server socket file. You can use this codes to config the address of emacs server socket file.
 
 #+BEGIN_SRC yaml
      org:

@@ -76,7 +76,7 @@ If you want to make example-block has line-number, you also need to setup `org-h
     ("ruby"            . "ruby")
     ("scss"            . "scss")
     ("sh"              . "bash")
-    ("shell"           . "shell")
+    ("shell"           . "bash")
     ("sql"             . "sql")
     ("stylus"          . "stylus")
     ("xml"             . "xml")

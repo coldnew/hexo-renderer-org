@@ -40,7 +40,7 @@
   (defvar hexo-renderer-org-debug nil))
 
 (unless (and (boundp 'hexo-renderer-org--loaded) (not hexo-renderer-org-debug))
-
+
   ;;;; Public variables
 
   (defvar hexo-renderer-org-cachedir "./hexo-org-cache"
@@ -58,7 +58,7 @@
   (defvar hexo-renderer-org-htmlize "false"
     "Enable use Emacs's htmlize package to renderer code block or not.")
 
-
+
   ;;;; Private variables
 
   ;; for backward compability
@@ -76,7 +76,7 @@
     "YOU SHOULD NOT SETUP THIS VARIABLE.
   This variable is keeped incase org-hexo not loaded.")
 
-
+
   ;;;; Debugger
 
   (defun hexo-org-renderer-oops (msg)
@@ -112,7 +112,7 @@
   ;;           (hexo-org-renderer-oops (buffer-string))))
   ;;       ))
 
-
+
   ;;;; Initial emacs packages
 
   (when hexo-renderer-org-daemonize
@@ -125,9 +125,9 @@
 
     ;; Extra package repos
     (add-to-list 'package-archives
-                '("melpa" . "https://melpa.org/packages/") t)
+                 '("melpa" . "https://melpa.org/packages/") t)
     (add-to-list 'package-archives
-                '("org" . "http://orgmode.org/elpa/") t)
+                 '("org" . "http://orgmode.org/elpa/") t)
 
     ;; For important compatibility libraries like cl-lib
     (when (< emacs-major-version 24)
@@ -153,7 +153,7 @@
         (require 'htmlize)))
     )
 
-
+
   ;;;; Initial org-mode and ox-hexo.el
 
   (require 'org)
@@ -184,7 +184,7 @@
   (add-to-list 'load-path hexo-renderer-org--load-path)
   (autoload 'org-hexo-export-as-html "ox-hexo")
 
-
+
   ;; The exporter function
 
   (defun hexo-renderer-org-exporter ()
@@ -229,14 +229,15 @@
         ;; Write contents to output-file
         (write-region (point-min) (point-max) output-file)
         ;; bye-bye tmp buffer
-        (kill-buffer))))
+        (kill-buffer))
+      (delete-window)))
 
-
+
   ;; User config and other stuffs
 
   ;; Load user-config
   (when (and (not (string-equal hexo-renderer-org-user-config ""))
-            (file-exists-p hexo-renderer-org-user-config))
+             (file-exists-p hexo-renderer-org-user-config))
     (load-file hexo-renderer-org-user-config))
 
   ;; Load theme if specify

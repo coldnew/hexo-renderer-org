@@ -34,7 +34,10 @@ hexo.on('ready', function() {
         let fullname = path.join(dir, filename);
         let stats = fs.statSync(fullname);
         if (!stats.isDirectory())
-          fs.unlink(fullname);
+          fs.unlink(fullname, (err) => {
+            if (err) throw err;
+            console.log(fullname + " was deleted");
+          });
       });
     }
   }

@@ -216,7 +216,7 @@ Then add following to =.dir-locals.el= at the top of your hexo project:
                           (file-name-nondirectory
                            (car (url-path-and-query
                                  (url-generic-parse-url link)))))
-                         (dirname (file-name-sans-extension (buffer-name)) ))
+                         (dirname (file-name-sans-extension buffer-file-name) ))
                      ;; if directory not exist, create it
                      (unless (file-exists-p dirname)
                        (make-directory dirname))

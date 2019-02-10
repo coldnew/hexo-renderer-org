@@ -238,7 +238,8 @@
   ;; Load user-config
   (when (and (not (string-equal hexo-renderer-org-user-config ""))
              (file-exists-p hexo-renderer-org-user-config))
-    (load-file hexo-renderer-org-user-config))
+    (load-file hexo-renderer-org-user-config)
+    (message "Load User Config."))
 
   ;; Load theme if specify
   (unless (string-equal hexo-renderer-org-theme "")

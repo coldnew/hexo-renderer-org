@@ -10,6 +10,7 @@ describe('Org renderer', function() {
     config: {
       org: {
         emacs: 'emacs',
+        preloadScript: undefined,
         export_cfg: '',
         common: '#+OPTIONS: html-postamble:nil',
         cachedir: './hexo-org-cache/',

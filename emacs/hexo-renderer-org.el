@@ -30,6 +30,10 @@
 ;; when error, trigger an error buffer to make debug more easy
 (setq debug-on-error t)
 
+;; emacs 26.1 has a bug that it couldn't execute package-refresh-contents.
+;; set this variable to fix this bug.
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
 ;; Ignore all directory-local variables in `.dir-locals.el', whick make Emacs stucks there.
 (setq enable-dir-local-variables nil)
 

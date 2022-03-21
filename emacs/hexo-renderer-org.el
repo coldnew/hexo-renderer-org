@@ -114,13 +114,11 @@ This variable is keeped incase org-hexo not loaded.")
   (setq user-emacs-directory (concat (file-name-as-directory hexo-renderer-org-cachedir) "emacs.d"))
 
   ;; Initial package.el
-  (require 'package)                      ; built-in since emacs24
+  (require 'package)			; built-in since emacs24
 
   ;; Extra package repos
   (add-to-list 'package-archives
                '("melpa" . "https://melpa.org/packages/") t)
-  (add-to-list 'package-archives
-               '("org" . "http://orgmode.org/elpa/") t)
 
   ;; For important compatibility libraries like cl-lib
   (when (< emacs-major-version 24)
@@ -130,14 +128,12 @@ This variable is keeped incase org-hexo not loaded.")
   ;; Don't delete this line. If you don't want it, just comment it out by adding a
   ;; semicolon to the start of the line. You may delete these explanatory
   ;; comments.
-  (package-initialize)
+  (when (< emacs-major-version 27)
+    (package-initialize))
 
   ;; Auto refresh packages info when no archive available.
   (when (not package-archive-contents)
     (package-refresh-contents))
-
-  ;; Install deps packages
-  (package-install 'org-plus-contrib)     ; Installed by packages.el
 
   ;; Only install htmlize when user use it
   (when hexo-renderer-org--use-htmlize

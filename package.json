@@ -22,21 +22,21 @@
   "homepage": "https://github.com/coldnew/hexo-render-org#readme",
   "dependencies": {
     "bufferhelper": "^0.2.1",
-    "cheerio": "^0.22.0",
-    "fs-extra": "^9.0.1",
-    "hexo-util": "^2.1.0",
-    "iconv-lite": "^0.6.2",
-    "jsonfile": "^6.0.1",
-    "md5": "^2.2.1",
-    "moment": "^2.27.0",
-    "npm-check-updates": "^7.0.2",
+    "cheerio": "^1.0.0-rc.10",
+    "fs-extra": "^10.0.1",
+    "hexo-util": "^2.6.0",
+    "iconv-lite": "^0.6.3",
+    "jsonfile": "^6.1.0",
+    "md5": "^2.3.0",
+    "moment": "^2.29.1",
+    "npm-check-updates": "^12.5.4",
     "object-assign": "^4.1.1",
-    "retry": "^0.12.0",
-    "slash": "^3.0.0",
+    "retry": "^0.13.1",
+    "slash": "^4.0.0",
     "tmp": "0.2.1"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
+    "chai": "^4.3.6",
     "mocha": "^9.2.2"
   }
 }

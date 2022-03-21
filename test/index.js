@@ -1,12 +1,12 @@
 'use strict';
 
-var should = require('chai').should();
+const should = require('chai').should();
 
 describe('Org renderer', function() {
   this.timeout(100000);
   // in index.js
-  var assign = require('object-assign');
-  var ctx = {
+  const assign = require('object-assign');
+  const ctx = {
     config: {
       org: {
         emacs: 'emacs',
@@ -20,16 +20,16 @@ describe('Org renderer', function() {
     }
   };
 
-  var r = require('../lib/renderer').bind(ctx);
+  const r = require('../lib/renderer').bind(ctx);
   // org-html-postamble contains time and version info which is not easy to test
-  it('rendering simple-test.org with org-html-postamble', function(){
-    var data = {
+  it('rendering simple-test.org with org-html-postamble', () => {
+    const data = {
       path: `${process.cwd()}/test/org/simple-test.org`,
       text: 'test' // did nothing
     };
 
     // FIXME: this test can pass on org-mode 8.x, failed on 9.x :-S
-    return r(data).then((result) => {
+    return r(data).then(result => {
       console.log(result);
       result.should.eql(
         `

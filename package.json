@@ -1,9 +1,10 @@
 {
   "name": "hexo-renderer-org",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "description": "Emacs org-mode render plugin for hexo (fork)",
   "main": "index",
   "scripts": {
+    "eslint": "eslint .",
     "test": "node_modules/.bin/mocha test/index.js"
   },
   "repository": {
@@ -20,6 +21,13 @@
     "url": "https://github.com/coldnew/hexo-render-org/issues"
   },
   "homepage": "https://github.com/coldnew/hexo-render-org#readme",
+  "directories": {
+    "lib": "./lib"
+  },
+  "files": [
+    "lib",
+    "index.js"
+  ],
   "dependencies": {
     "bufferhelper": "^0.2.1",
     "cheerio": "^1.0.0-rc.10",
@@ -37,6 +45,12 @@
   },
   "devDependencies": {
     "chai": "^4.3.6",
+    "eslint": "^8.0.0",
+    "eslint-config-hexo": "^5.0.0",
+    "hexo": "^6.0.0",
     "mocha": "^9.2.2"
+  },
+  "engines": {
+    "node": ">=12"
   }
 }

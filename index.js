@@ -30,7 +30,7 @@ hexo.config.org = assign({
   debug: false
 }, hexo.config.org);
 
-hexo.on('ready', function() {
+hexo.on('ready', () => {
   // detect if current is execute for server, we have different method to handle emacs server exit.
   // some people may use 'hexo generate --watch' or 'hexo generate -w', which we also need to keep emacs server exist
   server_mode = process.argv.indexOf('server') > 0 || process.argv.indexOf('s') > 0 || process.argv.indexOf('--watch') > 0 || process.argv.indexOf('-w') > 0;
@@ -40,11 +40,11 @@ hexo.on('ready', function() {
     const dir = hexo.config.org.cachedir;
     if (fs.existsSync(dir) && hexo.config.org.clean_cache) {
       const files = fs.readdirSync(dir);
-      files.forEach(function (filename) {
+      files.forEach(filename => {
         const fullname = path.join(dir, filename);
         const stats = fs.statSync(fullname);
         if (!stats.isDirectory()) {
-          fs.unlink(fullname, (err) => {
+          fs.unlink(fullname, err => {
             if (err) throw err;
             console.log(fullname + ' was deleted');
           });
@@ -68,7 +68,7 @@ hexo.on('ready', function() {
 });
 
 // When time to exit hexo, kill emacs process
-hexo.on('exit', function(err) {
+hexo.on('exit', err => {
   // If use `hexo server`, the hexo will first enter `.on(exit)` event then start the server.
   // that's why we skip emacs.server.stop() when first etner here with server mode.
   if (server_mode) {
@@ -76,7 +76,7 @@ hexo.on('exit', function(err) {
     return;
   }
   if (emacs_server_start) {
-      emacs.server.stop(hexo);
+    emacs.server.stop(hexo);
   }
 });
 

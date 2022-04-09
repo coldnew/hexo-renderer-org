@@ -28,7 +28,7 @@
     "iconv-lite": "^0.6.3",
     "jsonfile": "^6.1.0",
     "md5": "^2.3.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "npm-check-updates": "^12.5.4",
     "object-assign": "^4.1.1",
     "retry": "^0.13.1",

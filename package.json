@@ -29,7 +29,7 @@
     "jsonfile": "^6.1.0",
     "md5": "^2.3.0",
     "moment": "^2.29.1",
-    "npm-check-updates": "^12.5.4",
+    "npm-check-updates": "^16.7.4",
     "object-assign": "^4.1.1",
     "retry": "^0.13.1",
     "slash": "^4.0.0",

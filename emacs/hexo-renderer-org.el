@@ -1,6 +1,6 @@
 ;;; hexo-renderer-org.el --- hexo-renderer-org's emacs init file.
 
-;; Copyright (c) 2017 Yen-Chin, Lee.
+;; Copyright (c) 2017 - 2023 Yen-Chin, Lee.
 ;;
 ;; This file is not part of GNU Emacs.
 

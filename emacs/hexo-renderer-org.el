@@ -132,9 +132,6 @@ This variable is keeped incase org-hexo not loaded.")
   (when (not package-archive-contents)
     (package-refresh-contents))
 
-  ;; Install deps packages
-  (package-install 'org-plus-contrib)     ; Installed by packages.el
-
   ;; Only install htmlize when user use it
   (when hexo-renderer-org--use-htmlize
     (progn
